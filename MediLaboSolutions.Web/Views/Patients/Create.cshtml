@@ -1,0 +1,42 @@
+﻿@model MediLaboSolutions.Web.Models.Patients.PatientDto
+@{
+    ViewData["Title"] = "Ajouter un patient";
+}
+
+<h1>Ajouter un patient</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Nom">Nom</label>
+        <input asp-for="Nom" class="form-control" />
+        <span asp-validation-for="Nom" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Prenom">Prénom</label>
+        <input asp-for="Prenom" class="form-control" />
+        <span asp-validation-for="Prenom" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateNaissance">Date de naissance</label>
+        <input asp-for="DateNaissance" class="form-control" type="date" />
+        <span asp-validation-for="DateNaissance" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Genre">Genre</label>
+        <input asp-for="Genre" class="form-control" />
+        <span asp-validation-for="Genre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AdressePostale">Adresse Postale</label>
+        <input asp-for="AdressePostale" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Telephone">Téléphone</label>
+        <input asp-for="Telephone" class="form-control" type="number" />
+    </div>
+    <button type="submit" class="btn btn-primary">Créer</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

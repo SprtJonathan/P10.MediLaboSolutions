@@ -1,4 +1,4 @@
-@MediLaboSolutions.API_HostAddress = http://localhost:5039
+@MediLaboSolutions.API_HostAddress = http://localhost:5162
 
 GET {{MediLaboSolutions.API_HostAddress}}/weatherforecast/
 Accept: application/json
