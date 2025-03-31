@@ -1,4 +1,5 @@
 using MediLaboSolutions.Web.Data;
+using MediLaboSolutions.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,10 +15,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
-// Configurer HttpClient pour appeler l’API
-builder.Services.AddHttpClient("ApiClient", client =>
+// Configurer HttpClient pour appeler l'API
+builder.Services.AddHttpClient<PatientService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5000/"); // Remplacez par l’URL de votre API
+    client.BaseAddress = new Uri("http://localhost:5000/"); // Remplace par l’URL de ton API
 });
 
 var app = builder.Build();
