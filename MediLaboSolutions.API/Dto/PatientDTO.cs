@@ -1,6 +1,8 @@
-﻿namespace MediLaboSolutions.API.DTO
+﻿using MediLaboSolutions.Common.Interfaces;
+
+namespace MediLaboSolutions.API.DTO
 {
-    public class PatientDTO
+    public class PatientDTO : IPatient
     {
         public int Id { get; set; }
         public string Nom { get; set; }
