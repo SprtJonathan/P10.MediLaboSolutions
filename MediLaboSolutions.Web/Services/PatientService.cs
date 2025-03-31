@@ -1,4 +1,4 @@
-﻿using MediLaboSolutions.Data.Models;
+﻿using MediLaboSolutions.Common.Interfaces;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
@@ -14,25 +14,25 @@ namespace MediLaboSolutions.Web.Services
             _httpClient = httpClient;
         }
 
-        public async Task<List<Patient>> GetAllPatientsAsync()
+        public async Task<List<IPatient>> GetAllPatientsAsync()
         {
-            return await _httpClient.GetFromJsonAsync<List<Patient>>("api/patients")
-                ?? new List<Patient>();
+            return await _httpClient.GetFromJsonAsync<List<IPatient>>("api/patients")
+                ?? new List<IPatient>();
         }
 
-        public async Task<Patient?> GetPatientByIdAsync(int id)
+        public async Task<IPatient?> GetPatientByIdAsync(int id)
         {
-            return await _httpClient.GetFromJsonAsync<Patient>($"api/patients/{id}");
+            return await _httpClient.GetFromJsonAsync<IPatient>($"api/patients/{id}");
         }
 
-        public async Task AddPatientAsync(Patient patient)
+        public async Task AddPatientAsync(IPatient patient)
         {
             await _httpClient.PostAsJsonAsync("api/patients", patient);
         }
 
-        public async Task UpdatePatientAsync(Patient patient)
+        public async Task UpdatePatientAsync(int id, IPatient patient)
         {
-            await _httpClient.PutAsJsonAsync($"api/patients/{patient.Id}", patient);
+            await _httpClient.PutAsJsonAsync($"api/patients/{id}", patient);
         }
 
         public async Task DeletePatientAsync(int id)

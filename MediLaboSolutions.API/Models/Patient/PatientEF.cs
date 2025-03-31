@@ -1,27 +1,31 @@
 ﻿using MediLaboSolutions.Common.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
-namespace MediLaboSolutions.Web.Models.Patients
+namespace MediLaboSolutions.API.Models.Patient
 {
-    public class PatientDto : IPatient
+    public class PatientEF : BaseModelEntity, IPatient
     {
-        /// <summary>
-        /// Id du patient
-        /// </summary>
-        [Required]
-        public string? Id { get; set; }
+        // Constructeur par défaut pour initialiser les propriétés obligatoires
+        public PatientEF() : base()
+        {
+        }
+
+        // Constructeur avec ID
+        public PatientEF(int id) : base(id)
+        {
+        }
 
         /// <summary>
         /// Nom du patient
         /// </summary>
         [Required]
-        public string? Nom { get; set; }
+        public string Nom { get; set; }
 
         /// <summary>
         /// Prénom du patient
         /// </summary>
         [Required]
-        public string? Prenom { get; set; }
+        public string Prenom { get; set; }
 
         /// <summary>
         /// Date de naissance du patient
@@ -33,7 +37,7 @@ namespace MediLaboSolutions.Web.Models.Patients
         /// Genre du patient
         /// </summary>
         [Required]
-        public string? Genre { get; set; }
+        public string Genre { get; set; }
 
         /// <summary>
         /// Adresse postale du patient

@@ -1,4 +1,4 @@
-﻿using MediLaboSolutions.Data.Models;
+﻿using MediLaboSolutions.Common.Interfaces;
 using MediLaboSolutions.Web.Models.Patients;
 using MediLaboSolutions.Web.Services;
 using Microsoft.AspNetCore.Http;
@@ -51,19 +51,8 @@ namespace MediLaboSolutions.Web.Controllers
 
             try
             {
-                // Mapping de PatientDto vers Patient
-                var newPatient = new Patient
-                {
-                    Nom = patientDto.Nom,
-                    Prenom = patientDto.Prenom,
-                    DateNaissance = patientDto.DateNaissance,
-                    Genre = patientDto.Genre,
-                    AdressePostale = patientDto.AdressePostale,
-                    Telephone = patientDto.Telephone
-                };
-
                 // Ajout du patient de manière asynchrone
-                await _patientService.AddPatientAsync(newPatient);
+                await _patientService.AddPatientAsync(patientDto);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception ex)
