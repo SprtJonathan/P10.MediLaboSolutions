@@ -1,30 +1,42 @@
-﻿@page
-@model MediLaboSolutions.Web.Pages.Patients.PatientViewModel
-<h1>Patients</h1>
-<a asp-page="Create">Ajouter un patient</a>
-<table>
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Date de naissance</th>
-            <th>Genre</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var patient in Model.Patients)
-        {
+﻿@model List<MediLaboSolutions.Web.Models.Patients.PatientDto>
+@{
+    ViewData["Title"] = "Liste des patients";
+}
+
+<h1>Liste des patients</h1>
+
+@if (Model != null)
+{
+    <table class="table">
+        <thead>
             <tr>
-                <td>@patient.Nom</td>
-                <td>@patient.Prenom</td>
-                <td>@patient.DateNaissance.ToShortDateString()</td>
-                <td>@patient.Genre</td>
-                <td>
-                    <a asp-page="Edit" asp-route-id="@patient.Id">Modifier</a>
-                    <a asp-page="Delete" asp-route-id="@patient.Id">Supprimer</a>
-                </td>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de naissance</th>
+                <th>Genre</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var patient in Model)
+            {
+                <tr>
+                    <td>@patient.Nom</td>
+                    <td>@patient.Prenom</td>
+                    <td>@patient.DateNaissance.ToShortDateString()</td>
+                    <td>@patient.Genre</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@patient.Id">Modifier</a> |
+                        <a asp-action="Delete" asp-route-id="@patient.Id">Supprimer</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>Aucune patient</div>
+}
+
+<a asp-action="Create">Ajouter un patient</a>

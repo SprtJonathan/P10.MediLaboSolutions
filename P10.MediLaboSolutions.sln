@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediLaboSolutions.API", "MediLaboSolutions.API\MediLaboSolutions.API.csproj", "{1A0652EC-20CB-42E9-9921-F336FA077085}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediLaboSolutions.Web", "MediLaboSolutions.Web\MediLaboSolutions.Web.csproj", "{68D69490-A8D4-4EA1-AC55-4C17DE8A3E09}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediLaboSolutions.Data", "MediLaboSolutions.Data\MediLaboSolutions.Data.csproj", "{6326B2BA-9A86-44C9-ABC8-976A0F9E36A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediLaboSolutions.Gateway", "MediLaboSolutions.Gateway\MediLaboSolutions.Gateway.csproj", "{17AD3BF0-9C1A-43AA-A490-CB62FB7246F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediLaboSolutions.API", "MediLaboSolutions.API\MediLaboSolutions.API.csproj", "{F77B10B6-6CCC-4A66-AA1C-333B95088A41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1A0652EC-20CB-42E9-9921-F336FA077085}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1A0652EC-20CB-42E9-9921-F336FA077085}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1A0652EC-20CB-42E9-9921-F336FA077085}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1A0652EC-20CB-42E9-9921-F336FA077085}.Release|Any CPU.Build.0 = Release|Any CPU
 		{68D69490-A8D4-4EA1-AC55-4C17DE8A3E09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{68D69490-A8D4-4EA1-AC55-4C17DE8A3E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68D69490-A8D4-4EA1-AC55-4C17DE8A3E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{17AD3BF0-9C1A-43AA-A490-CB62FB7246F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17AD3BF0-9C1A-43AA-A490-CB62FB7246F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17AD3BF0-9C1A-43AA-A490-CB62FB7246F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F77B10B6-6CCC-4A66-AA1C-333B95088A41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F77B10B6-6CCC-4A66-AA1C-333B95088A41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F77B10B6-6CCC-4A66-AA1C-333B95088A41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F77B10B6-6CCC-4A66-AA1C-333B95088A41}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using MediLaboSolutions.Data.Models;
+using MongoDB.Bson;
 
 namespace MediLaboSolutions.Data.Repositories
 {
@@ -18,7 +19,7 @@ namespace MediLaboSolutions.Data.Repositories
             return await _patients.Find(_ => true).ToListAsync();
         }
 
-        public async Task<Patient> GetByIdAsync(int id)
+        public async Task<Patient> GetByIdAsync(ObjectId id)
         {
             return await _patients.Find(p => p.Id == id).FirstOrDefaultAsync();
         }
@@ -33,7 +34,7 @@ namespace MediLaboSolutions.Data.Repositories
             await _patients.ReplaceOneAsync(p => p.Id == patient.Id, patient);
         }
 
-        public async Task DeleteAsync(int id)
+        public async Task DeleteAsync(ObjectId id)
         {
             await _patients.DeleteOneAsync(p => p.Id == id);
         }
