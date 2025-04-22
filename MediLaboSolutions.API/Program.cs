@@ -12,7 +12,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 
-
 // Chargement des fichiers appsettings.json (developpement ou normal)
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)

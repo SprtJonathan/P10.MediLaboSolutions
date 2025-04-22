@@ -7,6 +7,6 @@
         DateTime DateNaissance { get; set; }
         string Genre { get; set; }
         string? AdressePostale { get; set; }
-        int? Telephone { get; set; }
+        long? Telephone { get; set; }
     }
 }

@@ -47,6 +47,7 @@ namespace MediLaboSolutions.API.Models.Patient
         /// <summary>
         /// Numéro de téléphone du patient
         /// </summary>
-        public int? Telephone { get; set; }
+        [MaxLength(10, ErrorMessage = "Le numéro de téléphone ne doit pas dépasser 10 chiffres.")]
+        public long? Telephone { get; set; }
     }
 }

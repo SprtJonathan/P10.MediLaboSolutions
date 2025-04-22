@@ -14,11 +14,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<PatientService>();
 
 // Configurer HttpClient pour appeler l'API
 builder.Services.AddHttpClient<PatientService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5000/"); // Remplace par l’URL de ton API
+    client.BaseAddress = new Uri("http://localhost:5221/"); // Pointe vers le Gateway
 });
 
 var app = builder.Build();

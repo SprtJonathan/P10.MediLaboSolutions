@@ -8,8 +8,7 @@ namespace MediLaboSolutions.Web.Models.Patients
         /// <summary>
         /// Id du patient
         /// </summary>
-        [Required]
-        public string? Id { get; set; }
+        public int? Id { get; set; }
 
         /// <summary>
         /// Nom du patient
@@ -43,6 +42,6 @@ namespace MediLaboSolutions.Web.Models.Patients
         /// <summary>
         /// Numéro de téléphone du patient
         /// </summary>
-        public int? Telephone { get; set; }
+        public long? Telephone { get; set; }
     }
 }
