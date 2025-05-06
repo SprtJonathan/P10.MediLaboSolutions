@@ -1,4 +1,4 @@
-﻿using MediLaboSolutions.API.DTO;
+﻿using MediLaboSolutions.API.Dto;
 using MediLaboSolutions.API.Models.Patient;
 using MediLaboSolutions.API.Repositories;
 using MediLaboSolutions.Common.Interfaces;
@@ -19,10 +19,10 @@ namespace MediLaboSolutions.API.Controllers
 
         // GET: api/patients
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PatientDTO>>> GetAll()
+        public async Task<ActionResult<IEnumerable<PatientDto>>> GetAll()
         {
             var patients = await _repository.GetAllAsync();
-            var patientDtos = patients.Select(p => new PatientDTO
+            var patientDtos = patients.Select(p => new PatientDto
             {
                 Id = p.Id,
                 Nom = p.Nom,
@@ -37,11 +37,11 @@ namespace MediLaboSolutions.API.Controllers
 
         // GET: api/patients/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<PatientDTO>> GetById(int id)
+        public async Task<ActionResult<PatientDto>> GetById(int id)
         {
             var patient = await _repository.GetByIdAsync(id);
             if (patient == null) return NotFound();
-            var patientDto = new PatientDTO
+            var patientDto = new PatientDto
             {
                 Id = patient.Id,
                 Nom = patient.Nom,
@@ -56,7 +56,7 @@ namespace MediLaboSolutions.API.Controllers
 
         // POST: api/patients
         [HttpPost]
-        public async Task<ActionResult<PatientDTO>> Create([FromBody] PatientDTO patientDto)
+        public async Task<ActionResult<PatientDto>> Create([FromBody] PatientDto patientDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
@@ -77,7 +77,7 @@ namespace MediLaboSolutions.API.Controllers
 
         // PUT: api/patients/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] PatientDTO patientDto)
+        public async Task<IActionResult> Update(int id, [FromBody] PatientDto patientDto)
         {
             if (id != patientDto.Id) return BadRequest();
             var patient = await _repository.GetByIdAsync(id);

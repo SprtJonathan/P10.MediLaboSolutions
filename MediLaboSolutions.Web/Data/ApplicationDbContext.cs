@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MediLaboSolutions.Web.Models.Patients;
 
 namespace MediLaboSolutions.Web.Data
 {
@@ -9,5 +10,6 @@ namespace MediLaboSolutions.Web.Data
             : base(options)
         {
         }
+        public DbSet<MediLaboSolutions.Web.Models.Patients.PatientDto> PatientDto { get; set; } = default!;
     }
 }

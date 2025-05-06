@@ -14,8 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MediLaboSolutions.API\MediLaboSolutions.API.csproj" />
-    <ProjectReference Include="..\MediLaboSolutions.Web\MediLaboSolutions.Web.csproj" />
+    <None Update="configuration.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

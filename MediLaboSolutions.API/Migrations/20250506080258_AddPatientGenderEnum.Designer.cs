@@ -4,6 +4,7 @@ using MediLaboSolutions.API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediLaboSolutions.API.Migrations
 {
     [DbContext(typeof(MediLaboSolutionsDbContext))]
-    partial class MediLaboSolutionsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250506080258_AddPatientGenderEnum")]
+    partial class AddPatientGenderEnum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

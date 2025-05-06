@@ -1,4 +1,5 @@
-﻿using MediLaboSolutions.Common.Interfaces;
+﻿using MediLaboSolutions.Common.Enumerables;
+using MediLaboSolutions.Common.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace MediLaboSolutions.API.Models.Patient
@@ -19,13 +20,13 @@ namespace MediLaboSolutions.API.Models.Patient
         /// Nom du patient
         /// </summary>
         [Required]
-        public string Nom { get; set; }
+        public required string Nom { get; set; }
 
         /// <summary>
         /// Prénom du patient
         /// </summary>
         [Required]
-        public string Prenom { get; set; }
+        public required string Prenom { get; set; }
 
         /// <summary>
         /// Date de naissance du patient
@@ -37,7 +38,7 @@ namespace MediLaboSolutions.API.Models.Patient
         /// Genre du patient
         /// </summary>
         [Required]
-        public string Genre { get; set; }
+        public EPatientGender Genre { get; set; }
 
         /// <summary>
         /// Adresse postale du patient
@@ -47,6 +48,7 @@ namespace MediLaboSolutions.API.Models.Patient
         /// <summary>
         /// Numéro de téléphone du patient
         /// </summary>
-        public int? Telephone { get; set; }
+        [MaxLength(10, ErrorMessage = "Le numéro de téléphone ne doit pas dépasser 10 chiffres.")]
+        public long? Telephone { get; set; }
     }
 }
