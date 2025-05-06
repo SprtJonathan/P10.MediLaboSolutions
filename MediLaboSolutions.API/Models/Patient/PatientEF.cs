@@ -20,13 +20,13 @@ namespace MediLaboSolutions.API.Models.Patient
         /// Nom du patient
         /// </summary>
         [Required]
-        public string Nom { get; set; }
+        public required string Nom { get; set; }
 
         /// <summary>
         /// Prénom du patient
         /// </summary>
         [Required]
-        public string Prenom { get; set; }
+        public required string Prenom { get; set; }
 
         /// <summary>
         /// Date de naissance du patient
