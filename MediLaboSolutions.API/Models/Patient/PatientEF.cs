@@ -1,4 +1,5 @@
-﻿using MediLaboSolutions.Common.Interfaces;
+﻿using MediLaboSolutions.Common.Enumerables;
+using MediLaboSolutions.Common.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace MediLaboSolutions.API.Models.Patient
@@ -37,7 +38,7 @@ namespace MediLaboSolutions.API.Models.Patient
         /// Genre du patient
         /// </summary>
         [Required]
-        public string Genre { get; set; }
+        public EPatientGender Genre { get; set; }
 
         /// <summary>
         /// Adresse postale du patient

@@ -1,9 +1,11 @@
 ﻿using MediLaboSolutions.Web.Models.Patients;
 using MediLaboSolutions.Web.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediLaboSolutions.Web.Controllers
 {
+    [Authorize]
     public class PatientsController : Controller
     {
         private readonly PatientService _patientService;

@@ -1,4 +1,5 @@
-﻿using MediLaboSolutions.Common.Interfaces;
+﻿using MediLaboSolutions.Common.Enumerables;
+using MediLaboSolutions.Common.Interfaces;
 
 namespace MediLaboSolutions.API.Dto
 {
@@ -8,7 +9,7 @@ namespace MediLaboSolutions.API.Dto
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public DateTime DateNaissance { get; set; }
-        public string Genre { get; set; }
+        public EPatientGender Genre { get; set; }
         public string? AdressePostale { get; set; }
         public long? Telephone { get; set; }
     }

@@ -1,4 +1,5 @@
 ﻿using MediLaboSolutions.API.Models.Patient;
+using MediLaboSolutions.Common.Enumerables;
 using Microsoft.EntityFrameworkCore;
 
 namespace MediLaboSolutions.API.Data
@@ -18,7 +19,7 @@ namespace MediLaboSolutions.API.Data
                 entity.Property(e => e.Nom).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.Prenom).IsRequired().HasMaxLength(100);
                 entity.Property(e => e.DateNaissance).IsRequired();
-                entity.Property(e => e.Genre).IsRequired().HasMaxLength(10);
+                entity.Property(e => e.Genre);
                 entity.Property(e => e.AdressePostale).HasMaxLength(200);
                 entity.Property(e => e.Telephone);
             });

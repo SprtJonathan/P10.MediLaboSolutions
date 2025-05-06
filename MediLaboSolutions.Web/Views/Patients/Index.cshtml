@@ -15,6 +15,8 @@
                 <th>Prénom</th>
                 <th>Date de naissance</th>
                 <th>Genre</th>
+                <th>Adresse Postale</th>
+                <th>Téléphone</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -26,6 +28,8 @@
                     <td>@patient.Prenom</td>
                     <td>@patient.DateNaissance.ToShortDateString()</td>
                     <td>@patient.Genre</td>
+                    <td>@patient.AdressePostale</td>
+                    <td>@patient.Telephone</td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@patient.Id">Modifier</a> |
                         <a asp-action="Delete" asp-route-id="@patient.Id">Supprimer</a>
