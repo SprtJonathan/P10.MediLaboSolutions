@@ -1,9 +1,12 @@
 ﻿using MediLaboSolutions.Common.Enumerables;
 using MediLaboSolutions.Common.Interfaces;
+using MediLaboSolutions.API.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace MediLaboSolutions.API.Models.Patient
 {
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class PatientEF : BaseModelEntity, IPatient
     {
         // Constructeur par défaut pour initialiser les propriétés obligatoires
@@ -15,6 +18,9 @@ namespace MediLaboSolutions.API.Models.Patient
         public PatientEF(int id) : base(id)
         {
         }
+
+        protected override string DebuggerDisplay
+            => $"{base.DebuggerDisplay}, Nom complet = {Nom} {Prenom}"; 
 
         /// <summary>
         /// Nom du patient
