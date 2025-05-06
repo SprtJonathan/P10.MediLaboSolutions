@@ -1,0 +1,59 @@
+﻿@model MediLaboSolutions.Web.Models.Patients.PatientDto
+
+@{
+    ViewData["Title"] = "Détails du patient";
+}
+
+<h1>Détails du patient</h1>
+
+<div>
+    <h4>Patient</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Nom)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Nom)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Prenom)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Prenom)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DateNaissance)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DateNaissance)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Genre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AdressePostale)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AdressePostale)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Telephone)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Telephone)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Modifier</a>
+    <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+</div>
