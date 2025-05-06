@@ -9,35 +9,47 @@
 <form asp-action="Create" method="post">
     <input asp-for="Id" type="hidden" value="0" />
     <div class="form-group">
-        <label asp-for="Nom" class="control-label">@Html.DisplayNameFor(m => m.Nom)</label>
-        <input asp-for="Nom" class="form-control" />
+        <label class="control-label">
+            @Html.DisplayNameFor(m => m.Nom)
+            <input asp-for="Nom" class="form-control" />
+        </label>
         <span asp-validation-for="Nom" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Prenom" class="control-label">@Html.DisplayNameFor(m => m.Prenom)</label>
-        <input asp-for="Prenom" class="form-control" />
+        <label class="control-label">
+            @Html.DisplayNameFor(m => m.Prenom)
+            <input asp-for="Prenom" class="form-control" />
+        </label>
         <span asp-validation-for="Prenom" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="DateNaissance" class="control-label">@Html.DisplayNameFor(m => m.DateNaissance)</label>
-        <input asp-for="DateNaissance" class="form-control" type="date" />
+        <label class="control-label">
+            @Html.DisplayNameFor(m => m.DateNaissance)
+            <input asp-for="DateNaissance" class="form-control" type="date" />
+        </label>
         <span asp-validation-for="DateNaissance" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Genre" class="control-label">@Html.DisplayNameFor(m => m.Genre)</label>
-        <select asp-for="Genre"
-                class="form-control"
-                asp-items="Html.GetEnumSelectList<EPatientGender>()">
-        </select>
+        <label class="control-label">
+            @Html.DisplayNameFor(m => m.Genre)
+            <select asp-for="Genre"
+                    class="form-control"
+                    asp-items="Html.GetEnumSelectList<EPatientGender>()">
+            </select>
+        </label>
         <span asp-validation-for="Genre" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="AdressePostale" class="control-label">@Html.DisplayNameFor(m => m.AdressePostale)</label>
-        <input asp-for="AdressePostale" class="form-control" />
+        <label class="control-label">
+            @Html.DisplayNameFor(m => m.AdressePostale)
+            <input asp-for="AdressePostale" class="form-control" />
+        </label>
     </div>
     <div class="form-group">
-        <label asp-for="Telephone" class="control-label">@Html.DisplayNameFor(m => m.Telephone)</label>
-        <input asp-for="Telephone" class="form-control" type="number" />
+        <label class="control-label">
+            @Html.DisplayNameFor(m => m.Telephone)
+            <input asp-for="Telephone" class="form-control" type="number" />
+        </label>
     </div>
     <button type="submit" class="btn btn-primary">Créer</button>
 </form>
