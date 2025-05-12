@@ -27,6 +27,14 @@ RUN dotnet publish "./MediLaboSolutions.Notes.csproj" -c %BUILD_CONFIGURATION% -
 
 # Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
 FROM base AS final
+
+# Créer un utilisateur non-root
+RUN net user appuser /add && mkdir C:\app && icacls C:\app /grant appuser:(OI)(CI)F
+
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Basculer sur l'utilisateur non-root
+USER appuser
+
 ENTRYPOINT ["dotnet", "MediLaboSolutions.Notes.dll"]
