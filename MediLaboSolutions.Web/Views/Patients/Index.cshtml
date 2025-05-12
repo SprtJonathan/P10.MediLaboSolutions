@@ -15,7 +15,7 @@
                 <th>Prénom</th>
                 <th>Date de naissance</th>
                 <th>Genre</th>
-                <th>Adresse Postale</th>
+                <th>Adresse</th>
                 <th>Téléphone</th>
                 <th>Actions</th>
             </tr>
@@ -28,7 +28,17 @@
                     <td>@patient.Prenom</td>
                     <td>@patient.DateNaissance.ToShortDateString()</td>
                     <td>@patient.Genre</td>
-                    <td>@patient.AdressePostale</td>
+                    <td>
+                        @if (patient.Adresse != null)
+                        {
+                            <div>@patient.Adresse.Numero @patient.Adresse.Voie</div>
+                            <div>@patient.Adresse.CodePostal @patient.Adresse.Ville</div>
+                        }
+                        else
+                        {
+                            <em>Non renseignée</em>
+                        }
+                    </td>
                     <td>@patient.Telephone</td>
                     <td>
                         <a asp-action="Details" asp-route-id="@patient.Id">Détails</a> |

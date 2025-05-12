@@ -35,11 +35,18 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Genre)
         </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.AdressePostale)
-        </dt>
+        <dt class="col-sm-2">Adresse</dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.AdressePostale)
+            @if (Model.Adresse != null)
+            {
+                <div>@Model.Adresse.Numero @Model.Adresse.Voie</div>
+                <div>@Model.Adresse.CodePostal @Model.Adresse.Ville</div>
+                <div>@Model.Adresse.Pays</div>
+            }
+            else
+            {
+                <em>Adresse non renseignée</em>
+            }
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Telephone)

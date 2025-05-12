@@ -79,6 +79,10 @@ namespace MediLaboSolutions.Web.Controllers
             try
             {
                 _logger.LogInformation("Tentative d'ajout d'un nouveau patient");
+
+                var json = System.Text.Json.JsonSerializer.Serialize(patientDto);
+                _logger.LogInformation("JSON envoyé : {Json}", json);
+
                 await _patientService.AddPatientAsync(patientDto);
                 _logger.LogInformation("Patient ajouté avec succès");
                 return RedirectToAction(nameof(Index));
@@ -128,6 +132,10 @@ namespace MediLaboSolutions.Web.Controllers
             try
             {
                 _logger.LogInformation($"Tentative de mise à jour du patient avec l'ID {id}");
+
+                var json = System.Text.Json.JsonSerializer.Serialize(patientDto);
+                _logger.LogInformation("JSON envoyé : {Json}", json);
+
                 await _patientService.UpdatePatientAsync(id, patientDto);
                 _logger.LogInformation($"Patient avec l'ID {id} mis à jour avec succès");
                 return RedirectToAction(nameof(Index));

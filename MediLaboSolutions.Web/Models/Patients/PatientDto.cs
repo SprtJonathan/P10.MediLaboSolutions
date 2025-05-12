@@ -48,12 +48,14 @@ namespace MediLaboSolutions.Web.Models.Patients
         /// Adresse postale du patient
         /// </summary>
         [Display(Name = "Adresse postale")]
-        public string? AdressePostale { get; set; }
+        public int? AdresseId { get; set; }
 
         /// <summary>
         /// Numéro de téléphone du patient
         /// </summary>
         [Display(Name = "Téléphone")]
         public long? Telephone { get; set; }
+
+        public virtual AdresseDto? Adresse { get; set; }
     }
 }
