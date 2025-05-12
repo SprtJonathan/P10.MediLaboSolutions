@@ -16,7 +16,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["MediLaboSolutions.Web/MediLaboSolutions.Web.csproj", "MediLaboSolutions.Web/"]
 RUN dotnet restore "./MediLaboSolutions.Web/MediLaboSolutions.Web.csproj"
-COPY . .
+COPY MediLaboSolutions.Web/. ./MediLaboSolutions.Web/
 WORKDIR "/src/MediLaboSolutions.Web"
 RUN dotnet build "./MediLaboSolutions.Web.csproj" -c %BUILD_CONFIGURATION% -o /app/build
 
