@@ -1,9 +1,14 @@
 ﻿using MediLaboSolutions.Common.Enumerables;
 using MediLaboSolutions.Common.Interfaces;
+using MediLaboSolutions.API.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using System.ComponentModel.DataAnnotations.Schema;
+using MediLaboSolutions.API.Dto;
 
 namespace MediLaboSolutions.API.Models.Patient
 {
+    [DebuggerDisplay("{DebuggerDisplay,nq}")]
     public class PatientEF : BaseModelEntity, IPatient
     {
         // Constructeur par défaut pour initialiser les propriétés obligatoires
@@ -15,6 +20,9 @@ namespace MediLaboSolutions.API.Models.Patient
         public PatientEF(int id) : base(id)
         {
         }
+
+        protected override string DebuggerDisplay
+            => $"{base.DebuggerDisplay}, Nom complet = {Nom} {Prenom}"; 
 
         /// <summary>
         /// Nom du patient
@@ -41,14 +49,16 @@ namespace MediLaboSolutions.API.Models.Patient
         public EPatientGender Genre { get; set; }
 
         /// <summary>
-        /// Adresse postale du patient
+        /// Id de l'adresse postale du patient
         /// </summary>
-        public string? AdressePostale { get; set; }
+        public int? AdresseId { get; set; }
 
         /// <summary>
         /// Numéro de téléphone du patient
         /// </summary>
         [MaxLength(10, ErrorMessage = "Le numéro de téléphone ne doit pas dépasser 10 chiffres.")]
         public long? Telephone { get; set; }
+
+        public virtual AdresseEF? Adresse { get; set; }
     }
 }

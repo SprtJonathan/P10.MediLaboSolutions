@@ -1,7 +1,6 @@
 ﻿using MediLaboSolutions.API.Dto;
 using MediLaboSolutions.API.Models.Patient;
 using MediLaboSolutions.API.Repositories;
-using MediLaboSolutions.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediLaboSolutions.API.Controllers
@@ -17,44 +16,60 @@ namespace MediLaboSolutions.API.Controllers
             _repository = repository;
         }
 
-        // GET: api/patients
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PatientDto>>> GetAll()
         {
             var patients = await _repository.GetAllAsync();
-            var patientDtos = patients.Select(p => new PatientDto
+            var dtos = patients.Select(p => new PatientDto
             {
                 Id = p.Id,
                 Nom = p.Nom,
                 Prenom = p.Prenom,
                 DateNaissance = p.DateNaissance,
                 Genre = p.Genre,
-                AdressePostale = p.AdressePostale,
-                Telephone = p.Telephone
+                Telephone = p.Telephone,
+                AdresseId = p.AdresseId,
+                Adresse = p.Adresse == null ? null : new AdresseDto
+                {
+                    Id = p.Adresse.Id,
+                    Numero = p.Adresse.Numero,
+                    Voie = p.Adresse.Voie,
+                    Ville = p.Adresse.Ville,
+                    CodePostal = p.Adresse.CodePostal,
+                    Pays = p.Adresse.Pays
+                }
             });
-            return Ok(patientDtos);
+            return Ok(dtos);
         }
 
-        // GET: api/patients/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PatientDto>> GetById(int id)
         {
-            var patient = await _repository.GetByIdAsync(id);
-            if (patient == null) return NotFound();
-            var patientDto = new PatientDto
+            var p = await _repository.GetByIdAsync(id);
+            if (p == null) return NotFound();
+
+            var dto = new PatientDto
             {
-                Id = patient.Id,
-                Nom = patient.Nom,
-                Prenom = patient.Prenom,
-                DateNaissance = patient.DateNaissance,
-                Genre = patient.Genre,
-                AdressePostale = patient.AdressePostale,
-                Telephone = patient.Telephone
+                Id = p.Id,
+                Nom = p.Nom,
+                Prenom = p.Prenom,
+                DateNaissance = p.DateNaissance,
+                Genre = p.Genre,
+                Telephone = p.Telephone,
+                AdresseId = p.AdresseId,
+                Adresse = p.Adresse == null ? null : new AdresseDto
+                {
+                    Id = p.Adresse.Id,
+                    Numero = p.Adresse.Numero,
+                    Voie = p.Adresse.Voie,
+                    Ville = p.Adresse.Ville,
+                    CodePostal = p.Adresse.CodePostal,
+                    Pays = p.Adresse.Pays
+                }
             };
-            return Ok(patientDto);
+            return Ok(dto);
         }
 
-        // POST: api/patients
         [HttpPost]
         public async Task<ActionResult<PatientDto>> Create([FromBody] PatientDto patientDto)
         {
@@ -66,16 +81,24 @@ namespace MediLaboSolutions.API.Controllers
                 Prenom = patientDto.Prenom,
                 DateNaissance = patientDto.DateNaissance,
                 Genre = patientDto.Genre,
-                AdressePostale = patientDto.AdressePostale,
-                Telephone = patientDto.Telephone
+                Telephone = patientDto.Telephone,
+                Adresse = patientDto.Adresse == null ? null : new AdresseEF
+                {
+                    Numero = patientDto.Adresse.Numero,
+                    Voie = patientDto.Adresse.Voie,
+                    Ville = patientDto.Adresse.Ville,
+                    CodePostal = patientDto.Adresse.CodePostal,
+                    Pays = patientDto.Adresse.Pays
+                }
             };
 
             await _repository.AddAsync(patient);
-            patientDto.Id = patient.Id; // Récupère l'ID généré
+            patientDto.Id = patient.Id;
+            patientDto.AdresseId = patient.AdresseId;
+
             return CreatedAtAction(nameof(GetById), new { id = patient.Id }, patientDto);
         }
 
-        // PUT: api/patients/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] PatientDto patientDto)
         {
@@ -87,14 +110,30 @@ namespace MediLaboSolutions.API.Controllers
             patient.Prenom = patientDto.Prenom;
             patient.DateNaissance = patientDto.DateNaissance;
             patient.Genre = patientDto.Genre;
-            patient.AdressePostale = patientDto.AdressePostale;
             patient.Telephone = patientDto.Telephone;
+
+            if (patientDto.Adresse != null)
+            {
+                patient.Adresse = new AdresseEF
+                {
+                    Numero = patientDto.Adresse.Numero,
+                    Voie = patientDto.Adresse.Voie,
+                    Ville = patientDto.Adresse.Ville,
+                    CodePostal = patientDto.Adresse.CodePostal,
+                    Pays = patientDto.Adresse.Pays
+                };
+            }
+            else
+            {
+                patient.Adresse = null;
+                patient.AdresseId = null;
+            }
+
 
             await _repository.UpdateAsync(patient);
             return NoContent();
         }
 
-        // DELETE: api/patients/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -8,7 +8,7 @@ namespace MediLaboSolutions.Common.Interfaces
         string Prenom { get; set; }
         DateTime DateNaissance { get; set; }
         EPatientGender Genre { get; set; }
-        string? AdressePostale { get; set; }
+        int? AdresseId { get; set; }
         long? Telephone { get; set; }
     }
 }

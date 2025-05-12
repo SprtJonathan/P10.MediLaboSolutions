@@ -14,16 +14,16 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0-nanoserver-1809 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["MediLaboSolutions.API/MediLaboSolutions.API.csproj", "MediLaboSolutions.API/"]
-RUN dotnet restore "./MediLaboSolutions.API/MediLaboSolutions.API.csproj"
-COPY MediLaboSolutions.API/. ./MediLaboSolutions.API/
-WORKDIR "/src/MediLaboSolutions.API"
-RUN dotnet build "./MediLaboSolutions.API.csproj" -c %BUILD_CONFIGURATION% -o /app/build
+COPY ["MediLaboSolutions.Notes/MediLaboSolutions.Notes.csproj", "MediLaboSolutions.Notes/"]
+RUN dotnet restore "./MediLaboSolutions.Notes/MediLaboSolutions.Notes.csproj"
+COPY MediLaboSolutions.Notes/. ./MediLaboSolutions.Notes/
+WORKDIR "/src/MediLaboSolutions.Notes"
+RUN dotnet build "./MediLaboSolutions.Notes.csproj" -c %BUILD_CONFIGURATION% -o /app/build
 
 # Cette étape permet de publier le projet de service à copier dans la phase finale
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./MediLaboSolutions.API.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./MediLaboSolutions.Notes.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
 
 # Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
 FROM base AS final
@@ -37,4 +37,4 @@ COPY --from=publish /app/publish .
 # Basculer sur l'utilisateur non-root
 USER appuser
 
-ENTRYPOINT ["dotnet", "MediLaboSolutions.API.dll"]
+ENTRYPOINT ["dotnet", "MediLaboSolutions.Notes.dll"]
