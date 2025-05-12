@@ -25,15 +25,14 @@ namespace MediLaboSolutions.API.Data
                 entity.HasOne(p => p.Adresse)
                       .WithOne()
                       .HasForeignKey<PatientEF>(p => p.AdresseId)
-                      .IsRequired(false)
-                      .OnDelete(DeleteBehavior.Cascade);
+                      .IsRequired(false);
             });
 
             modelBuilder.Entity<AdresseEF>(entity =>
             {
                 entity.HasKey(e => e.Id);
                 entity.Property(e => e.Numero);
-                entity.Property(e => e.Voie).IsRequired().HasMaxLength(200);
+                entity.Property(e => e.Voie).HasMaxLength(200);
                 entity.Property(e => e.Ville).HasMaxLength(100);
                 entity.Property(e => e.CodePostal).HasMaxLength(20);
                 entity.Property(e => e.Pays).HasMaxLength(100);

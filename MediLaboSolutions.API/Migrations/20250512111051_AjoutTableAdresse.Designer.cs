@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MediLaboSolutions.API.Migrations
 {
     [DbContext(typeof(MediLaboSolutionsDbContext))]
-    [Migration("20250512081526_AjoutTableAdresse")]
+    [Migration("20250512111051_AjoutTableAdresse")]
     partial class AjoutTableAdresse
     {
         /// <inheritdoc />
@@ -49,7 +49,6 @@ namespace MediLaboSolutions.API.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Voie")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -102,8 +101,7 @@ namespace MediLaboSolutions.API.Migrations
                 {
                     b.HasOne("MediLaboSolutions.API.Models.Patient.AdresseEF", "Adresse")
                         .WithOne()
-                        .HasForeignKey("MediLaboSolutions.API.Models.Patient.PatientEF", "AdresseId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("MediLaboSolutions.API.Models.Patient.PatientEF", "AdresseId");
 
                     b.Navigation("Adresse");
                 });

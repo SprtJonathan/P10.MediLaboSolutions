@@ -15,11 +15,9 @@ public class NoteEF : BaseModelEntityNoSql, INote
     }
 
     protected override string DebuggerDisplay
-        => $"{base.DebuggerDisplay}, Patient = {Nom} {Prenom}, Date = {Nom} {Prenom}";
+        => $"{base.DebuggerDisplay}, Patient = {PatientId}, Date = {DateCreation}";
 
     public int PatientId { get; set; }
-    public required string Nom { get; set; }
-    public required string Prenom { get; set; }
     public required string PraticienUsername { get; set; }
     public required string Texte { get; set; }
     public DateTime DateCreation { get; set; }
