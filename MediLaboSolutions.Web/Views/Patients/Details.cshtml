@@ -1,18 +1,52 @@
-﻿@model MediLaboSolutions.Web.Models.Patients.PatientDto
+﻿@model MediLaboSolutions.Web.ViewModels.PatientDetailsViewModel
 
 @{
     ViewData["Title"] = "Détails du patient";
 }
 
-<h1>Détails du patient</h1>
+<h2 class="mb-4">Détails du patient</h2>
 
-<div>
-    <h4>Patient</h4>
-    <hr />
-    @await Html.PartialAsync("Patients/_PatientDisplay", Model)
+<ul class="nav nav-tabs mb-3" id="patientTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="details-tab" data-bs-toggle="tab" data-bs-target="#details" type="button" role="tab" aria-controls="details" aria-selected="true">
+            🧍 Détails
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="notes-tab" data-bs-toggle="tab" data-bs-target="#notes" type="button" role="tab" aria-controls="notes" aria-selected="false">
+            📝 Notes
+        </button>
+    </li>
+</ul>
+
+<div class="tab-content" id="patientTabsContent">
+    <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                @await Html.PartialAsync("Patients/_PatientDisplay", Model.Patient)
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <a asp-action="Edit" asp-route-id="@Model.Patient.Id" class="btn btn-primary me-2">
+                <i class="bi bi-pencil-square"></i> Modifier
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Retour à la liste
+            </a>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="notes" role="tabpanel" aria-labelledby="notes-tab">
+        @await Html.PartialAsync("Notes/_NoteForm", Model.NewNote)
+        @await Html.PartialAsync("Notes/_NoteList", Model.Notes)
+    </div>
 </div>
 
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Modifier</a>
-    <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
-</div>
+@section Scripts {
+    <script>
+        const triggerTab = new bootstrap.Tab(document.querySelector('#patientTabs button.active'));
+        triggerTab.show();
+    </script>
+    <script src="/js/notes-scripts.js" asp-append-version="true"></script>
+}

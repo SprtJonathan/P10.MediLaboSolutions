@@ -1,10 +1,7 @@
 ﻿using MediLaboSolutions.Common.Enumerables;
 using MediLaboSolutions.Common.Interfaces;
-using MediLaboSolutions.API.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.ComponentModel.DataAnnotations.Schema;
-using MediLaboSolutions.API.Dto;
 
 namespace MediLaboSolutions.API.Models.Patient
 {
@@ -22,7 +19,7 @@ namespace MediLaboSolutions.API.Models.Patient
         }
 
         protected override string DebuggerDisplay
-            => $"{base.DebuggerDisplay}, Nom complet = {Nom} {Prenom}"; 
+            => $"{base.DebuggerDisplay}, Nom complet = {Nom} {Prenom}";
 
         /// <summary>
         /// Nom du patient

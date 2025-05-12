@@ -1,32 +1,40 @@
 ﻿@model MediLaboSolutions.Web.Models.Patients.PatientDto
 
-<dl class="row">
-    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Nom)</dt>
-    <dd class="col-sm-10">@Html.DisplayFor(model => model.Nom)</dd>
+<div class="row">
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-4 text-muted">Nom</dt>
+            <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.Nom)</dd>
 
-    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Prenom)</dt>
-    <dd class="col-sm-10">@Html.DisplayFor(model => model.Prenom)</dd>
+            <dt class="col-sm-4 text-muted">Prénom</dt>
+            <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.Prenom)</dd>
 
-    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.DateNaissance)</dt>
-    <dd class="col-sm-10">@Html.DisplayFor(model => model.DateNaissance)</dd>
+            <dt class="col-sm-4 text-muted">Date de naissance</dt>
+            <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.DateNaissance)</dd>
 
-    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Genre)</dt>
-    <dd class="col-sm-10">@Html.DisplayFor(model => model.Genre)</dd>
+            <dt class="col-sm-4 text-muted">Genre</dt>
+            <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.Genre)</dd>
+        </dl>
+    </div>
 
-    <dt class="col-sm-2">Adresse</dt>
-    <dd class="col-sm-10">
-        @if (Model.Adresse != null)
-        {
-            <div>@Model.Adresse.Numero @Model.Adresse.Voie</div>
-            <div>@Model.Adresse.CodePostal @Model.Adresse.Ville</div>
-            <div>@Model.Adresse.Pays</div>
-        }
-        else
-        {
-            <em>Adresse non renseignée</em>
-        }
-    </dd>
+    <div class="col-md-6">
+        <dl class="row">
+            <dt class="col-sm-4 text-muted">Téléphone</dt>
+            <dd class="col-sm-8 fw-bold">@Html.DisplayFor(model => model.Telephone)</dd>
 
-    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Telephone)</dt>
-    <dd class="col-sm-10">@Html.DisplayFor(model => model.Telephone)</dd>
-</dl>
+            <dt class="col-sm-4 text-muted">Adresse</dt>
+            <dd class="col-sm-8">
+                @if (Model.Adresse != null)
+                {
+                    <div class="fw-bold">@Model.Adresse.Numero @Model.Adresse.Voie</div>
+                    <div class="fw-bold">@Model.Adresse.CodePostal @Model.Adresse.Ville</div>
+                    <div class="fw-bold">@Model.Adresse.Pays</div>
+                }
+                else
+                {
+                    <em class="text-muted">Adresse non renseignée</em>
+                }
+            </dd>
+        </dl>
+    </div>
+</div>
