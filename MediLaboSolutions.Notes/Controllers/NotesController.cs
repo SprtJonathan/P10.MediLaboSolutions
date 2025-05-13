@@ -25,8 +25,6 @@ public class NotesController : ControllerBase
         {
             Id = n.Id,
             PatientId = n.PatientId,
-            Nom = n.Nom,
-            Prenom = n.Prenom,
             PraticienUsername = n.PraticienUsername,
             Texte = n.Texte,
             DateCreation = n.DateCreation
@@ -45,8 +43,6 @@ public class NotesController : ControllerBase
         {
             Id = note.Id,
             PatientId = note.PatientId,
-            Nom = note.Nom,
-            Prenom = note.Prenom,
             PraticienUsername = note.PraticienUsername,
             Texte = note.Texte,
             DateCreation = note.DateCreation
@@ -63,8 +59,6 @@ public class NotesController : ControllerBase
         var note = new NoteEF
         {
             PatientId = noteDto.PatientId,
-            Nom = noteDto.Nom,
-            Prenom = noteDto.Prenom,
             PraticienUsername = noteDto.PraticienUsername,
             Texte = noteDto.Texte,
             DateCreation = noteDto.DateCreation
@@ -85,8 +79,6 @@ public class NotesController : ControllerBase
 
 
         note.PatientId = noteDto.PatientId;
-        note.Nom = noteDto.Nom;
-        note.Prenom = noteDto.Prenom;
         note.PraticienUsername = noteDto.PraticienUsername;
         note.Texte = noteDto.Texte;
         note.DateCreation = noteDto.DateCreation;

@@ -1,7 +1,6 @@
-﻿using MediLaboSolutions.Common.Enumerables;
-using MediLaboSolutions.Common.Interfaces;
+﻿using MediLaboSolutions.Common.Interfaces;
 
-namespace MediLaboSolutions.Notes.Dto;
+namespace MediLaboSolutions.Web.Models.Notes;
 
 public class NoteDto : INote
 {

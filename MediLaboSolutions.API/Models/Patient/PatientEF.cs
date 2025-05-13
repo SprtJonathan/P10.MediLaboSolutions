@@ -1,6 +1,5 @@
 ﻿using MediLaboSolutions.Common.Enumerables;
 using MediLaboSolutions.Common.Interfaces;
-using MediLaboSolutions.API.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
@@ -20,7 +19,7 @@ namespace MediLaboSolutions.API.Models.Patient
         }
 
         protected override string DebuggerDisplay
-            => $"{base.DebuggerDisplay}, Nom complet = {Nom} {Prenom}"; 
+            => $"{base.DebuggerDisplay}, Nom complet = {Nom} {Prenom}";
 
         /// <summary>
         /// Nom du patient
@@ -47,14 +46,16 @@ namespace MediLaboSolutions.API.Models.Patient
         public EPatientGender Genre { get; set; }
 
         /// <summary>
-        /// Adresse postale du patient
+        /// Id de l'adresse postale du patient
         /// </summary>
-        public string? AdressePostale { get; set; }
+        public int? AdresseId { get; set; }
 
         /// <summary>
         /// Numéro de téléphone du patient
         /// </summary>
         [MaxLength(10, ErrorMessage = "Le numéro de téléphone ne doit pas dépasser 10 chiffres.")]
         public long? Telephone { get; set; }
+
+        public virtual AdresseEF? Adresse { get; set; }
     }
 }

@@ -1,0 +1,57 @@
+﻿@model List<MediLaboSolutions.Web.Models.Notes.NoteDto>
+
+<div id="note-list">
+    @foreach (var note in Model)
+    {
+        <div class="card mb-3 shadow-sm note-item" id="note-@note.Id">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <strong class="text-muted">@note.DateCreation.ToString("dd/MM/yyyy") - @note.PraticienUsername</strong>
+                    <div class="note-actions">
+                        <button class="btn btn-sm btn-outline-primary edit-note me-1" data-id="@note.Id">
+                            <i class="bi bi-pencil"></i> Modifier
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-note" data-id="@note.Id" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            <i class="bi bi-trash"></i> Supprimer
+                        </button>
+                    </div>
+                </div>
+
+                <div class="note-body mt-2">
+                    <div class="note-text" data-note-id="@note.Id">@note.Texte</div>
+
+                    <div class="edit-form mt-2" style="display:none;">
+                        <textarea class="form-control edit-textarea" rows="3">@note.Texte</textarea>
+                        <div class="mt-2 d-flex gap-2">
+                            <button class="btn btn-sm btn-success save-edit" data-id="@note.Id">
+                                <i class="bi bi-check"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary cancel-edit">
+                                <i class="bi bi-x"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- Modale de suppression -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmer la suppression</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    Êtes-vous sûr de vouloir supprimer cette note ?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

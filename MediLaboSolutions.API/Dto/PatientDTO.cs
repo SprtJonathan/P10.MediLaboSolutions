@@ -10,7 +10,9 @@ namespace MediLaboSolutions.API.Dto
         public required string Prenom { get; set; }
         public DateTime DateNaissance { get; set; }
         public EPatientGender Genre { get; set; }
-        public string? AdressePostale { get; set; }
+        public int? AdresseId { get; set; }
         public long? Telephone { get; set; }
+
+        public virtual AdresseDto? Adresse { get; set; }
     }
 }

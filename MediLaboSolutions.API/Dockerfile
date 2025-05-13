@@ -16,7 +16,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["MediLaboSolutions.API/MediLaboSolutions.API.csproj", "MediLaboSolutions.API/"]
 RUN dotnet restore "./MediLaboSolutions.API/MediLaboSolutions.API.csproj"
-COPY . .
+COPY MediLaboSolutions.API/. ./MediLaboSolutions.API/
 WORKDIR "/src/MediLaboSolutions.API"
 RUN dotnet build "./MediLaboSolutions.API.csproj" -c %BUILD_CONFIGURATION% -o /app/build
 
@@ -27,6 +27,14 @@ RUN dotnet publish "./MediLaboSolutions.API.csproj" -c %BUILD_CONFIGURATION% -o 
 
 # Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
 FROM base AS final
+
+# Créer un utilisateur non-root
+RUN net user appuser /add && mkdir C:\app && icacls C:\app /grant appuser:(OI)(CI)F
+
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Basculer sur l'utilisateur non-root
+USER appuser
+
 ENTRYPOINT ["dotnet", "MediLaboSolutions.API.dll"]

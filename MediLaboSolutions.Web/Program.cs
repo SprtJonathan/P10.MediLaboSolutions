@@ -15,9 +15,14 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PatientService>();
+builder.Services.AddScoped<NoteService>();
 
 // Configurer HttpClient pour appeler l'API
 builder.Services.AddHttpClient<PatientService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5221/"); // Pointe vers le Gateway
+});
+builder.Services.AddHttpClient<NoteService>(client =>
 {
     client.BaseAddress = new Uri("http://localhost:5221/"); // Pointe vers le Gateway
 });

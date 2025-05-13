@@ -56,10 +56,14 @@ namespace MediLaboSolutions.Web.Services
             try
             {
                 _logger.LogInformation("Ajout d'un nouveau patient");
-                var json = System.Text.Json.JsonSerializer.Serialize(patient);
-                _logger.LogInformation("JSON envoyé : {Json}", json);
                 var response = await _httpClient.PostAsJsonAsync("api/patients", patient);
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    _logger.LogError("Échec de la requête POST : {StatusCode} - {Message}", response.StatusCode, content);
+                    throw new HttpRequestException($"Erreur API : {response.StatusCode} - {content}");
+                }
+
                 _logger.LogInformation("Patient ajouté avec succès");
             }
             catch (Exception ex)
@@ -75,7 +79,13 @@ namespace MediLaboSolutions.Web.Services
             {
                 _logger.LogInformation($"Mise à jour du patient avec l'ID {id}");
                 var response = await _httpClient.PutAsJsonAsync($"api/patients/{id}", patient);
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    var content = await response.Content.ReadAsStringAsync();
+                    _logger.LogError("Échec de la requête POST : {StatusCode} - {Message}", response.StatusCode, content);
+                    throw new HttpRequestException($"Erreur API : {response.StatusCode} - {content}");
+                }
+
                 _logger.LogInformation($"Patient avec l'ID {id} mis à jour avec succès");
             }
             catch (Exception ex)

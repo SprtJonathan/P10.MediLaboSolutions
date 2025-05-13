@@ -1,5 +1,7 @@
-﻿using MediLaboSolutions.Web.Models.Patients;
+﻿using MediLaboSolutions.Web.Models.Notes;
+using MediLaboSolutions.Web.Models.Patients;
 using MediLaboSolutions.Web.Services;
+using MediLaboSolutions.Web.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,11 +11,13 @@ namespace MediLaboSolutions.Web.Controllers
     public class PatientsController : Controller
     {
         private readonly PatientService _patientService;
+        private readonly NoteService _noteService;
         private readonly ILogger<PatientsController> _logger;
 
-        public PatientsController(PatientService patientService, ILogger<PatientsController> logger)
+        public PatientsController(PatientService patientService, NoteService noteService, ILogger<PatientsController> logger)
         {
             _patientService = patientService ?? throw new ArgumentNullException(nameof(patientService));
+            _noteService = noteService;
             _logger = logger;
         }
 
@@ -40,29 +44,47 @@ namespace MediLaboSolutions.Web.Controllers
         {
             try
             {
-                _logger.LogInformation($"Récupération des détails du patient avec l'ID {id}");
                 var patient = await _patientService.GetPatientByIdAsync(id);
-                if (patient == null)
+                if (patient == null) return NotFound();
+
+                var notes = await _noteService.GetNotesByPatientIdAsync(id);
+
+                var viewModel = new PatientDetailsViewModel
                 {
-                    _logger.LogWarning($"Aucun patient trouvé avec l'ID {id}");
-                    return NotFound();
-                }
-                _logger.LogInformation($"Détails du patient avec l'ID {id} récupérés avec succès");
-                return View(patient);
+                    Patient = patient,
+                    Notes = notes,
+                    NewNote = new NoteDto
+                    {
+                        PatientId = patient.Id ?? 0,
+                        PraticienUsername = User.Identity?.Name ?? "Inconnu",
+                        Texte = string.Empty,
+                        DateCreation = DateTime.Now
+                    }
+                };
+
+                return View(viewModel);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Erreur lors de la récupération des détails du patient avec l'ID {id}");
-                ModelState.AddModelError("", "Une erreur est survenue lors de la récupération des détails du patient.");
+                _logger.LogError(ex, $"Erreur lors du chargement du patient ID {id}");
                 return View();
             }
         }
 
+
         // GET: PatientsController/Create
         public ActionResult Create()
         {
+            var model = new PatientDto
+            {
+                Nom = "",
+                Prenom = "",
+                DateNaissance = new DateTime(),
+                Genre = Common.Enumerables.EPatientGender.Unknown,
+                Adresse = new AdresseDto()
+            };
             _logger.LogInformation("Affichage de la vue pour créer un nouveau patient");
-            return View();
+            return View(model);
         }
 
         // POST: PatientsController/Create
@@ -79,6 +101,10 @@ namespace MediLaboSolutions.Web.Controllers
             try
             {
                 _logger.LogInformation("Tentative d'ajout d'un nouveau patient");
+
+                var json = System.Text.Json.JsonSerializer.Serialize(patientDto);
+                _logger.LogInformation("JSON envoyé : {Json}", json);
+
                 await _patientService.AddPatientAsync(patientDto);
                 _logger.LogInformation("Patient ajouté avec succès");
                 return RedirectToAction(nameof(Index));
@@ -128,6 +154,10 @@ namespace MediLaboSolutions.Web.Controllers
             try
             {
                 _logger.LogInformation($"Tentative de mise à jour du patient avec l'ID {id}");
+
+                var json = System.Text.Json.JsonSerializer.Serialize(patientDto);
+                _logger.LogInformation("JSON envoyé : {Json}", json);
+
                 await _patientService.UpdatePatientAsync(id, patientDto);
                 _logger.LogInformation($"Patient avec l'ID {id} mis à jour avec succès");
                 return RedirectToAction(nameof(Index));
