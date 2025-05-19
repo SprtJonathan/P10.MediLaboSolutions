@@ -23,11 +23,14 @@ namespace MediLaboSolutions.API.Data
                 entity.Property(e => e.Telephone);
 
                 entity.HasOne(p => p.Adresse)
-                      .WithOne()
-                      .HasForeignKey<PatientEF>(p => p.AdresseId)
-                      .IsRequired(false);
+                    .WithMany()
+                    .HasForeignKey(p => p.AdresseId)
+                    .IsRequired(false);
             });
 
+            modelBuilder.Entity<AdresseEF>()
+                .HasIndex(a => new { a.Numero, a.Voie, a.Ville, a.CodePostal, a.Pays })
+                .IsUnique();
             modelBuilder.Entity<AdresseEF>(entity =>
             {
                 entity.HasKey(e => e.Id);

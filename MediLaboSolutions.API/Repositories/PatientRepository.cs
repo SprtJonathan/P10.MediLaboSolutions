@@ -29,9 +29,27 @@ namespace MediLaboSolutions.API.Repositories
         {
             if (patient.Adresse != null)
             {
-                _context.Adresses.Add(patient.Adresse);
-                await _context.SaveChangesAsync();
-                patient.AdresseId = patient.Adresse.Id;
+                // Vérification de la présence d'une adresse identique
+                var existingAdresse = await _context.Adresses.FirstOrDefaultAsync(a =>
+                    a.Numero == patient.Adresse.Numero &&
+                    a.Voie == patient.Adresse.Voie &&
+                    a.Ville == patient.Adresse.Ville &&
+                    a.CodePostal == patient.Adresse.CodePostal &&
+                    a.Pays == patient.Adresse.Pays);
+
+                if (existingAdresse != null)
+                {
+                    // Si une adresse identique est trouvée, alors on l'associe au patient
+                    patient.Adresse = null;
+                    patient.AdresseId = existingAdresse.Id;
+                }
+                else
+                {
+                    // Sinon on ajoute la nouvelle adresse
+                    _context.Adresses.Add(patient.Adresse);
+                    await _context.SaveChangesAsync();
+                    patient.AdresseId = patient.Adresse.Id;
+                }
             }
 
             _context.Patients.Add(patient);
@@ -40,22 +58,51 @@ namespace MediLaboSolutions.API.Repositories
 
         public async Task UpdateAsync(PatientEF patient)
         {
+            var existingPatient = await _context.Patients
+                .AsNoTracking()
+                .Include(p => p.Adresse)
+                .FirstOrDefaultAsync(p => p.Id == patient.Id);
+
+            AdresseEF? oldAdresse = existingPatient?.Adresse;
+
             if (patient.Adresse != null)
             {
-                if (patient.Adresse.Id == 0)
+                var existingAdresse = await _context.Adresses.FirstOrDefaultAsync(a =>
+                a.Numero == patient.Adresse.Numero &&
+                a.Voie == patient.Adresse.Voie &&
+                a.Ville == patient.Adresse.Ville &&
+                a.CodePostal == patient.Adresse.CodePostal &&
+                a.Pays == patient.Adresse.Pays);
+
+                if (existingAdresse != null)
+                {
+                    patient.Adresse = null;
+                    patient.AdresseId = existingAdresse.Id;
+                }
+                else
                 {
                     _context.Adresses.Add(patient.Adresse);
                     await _context.SaveChangesAsync();
                     patient.AdresseId = patient.Adresse.Id;
                 }
-                else
-                {
-                    _context.Adresses.Update(patient.Adresse);
-                }
             }
 
             _context.Patients.Update(patient);
             await _context.SaveChangesAsync();
+
+            if (oldAdresse != null)
+            {
+                bool stillUsed = await _context.Patients.AnyAsync(p => p.AdresseId == oldAdresse.Id);
+                if (!stillUsed)
+                {
+                    var adresseToDelete = await _context.Adresses.FindAsync(oldAdresse.Id);
+                    if (adresseToDelete != null)
+                    {
+                        _context.Adresses.Remove(adresseToDelete);
+                        await _context.SaveChangesAsync();
+                    }
+                }
+            }
         }
 
         public async Task DeleteAsync(int id)
@@ -63,14 +110,23 @@ namespace MediLaboSolutions.API.Repositories
             var patient = await _context.Patients.Include(p => p.Adresse).FirstOrDefaultAsync(p => p.Id == id);
             if (patient != null)
             {
-                if (patient.Adresse != null)
-                {
-                    _context.Adresses.Remove(patient.Adresse);
-                }
+                var adresse = patient.Adresse;
 
                 _context.Patients.Remove(patient);
                 await _context.SaveChangesAsync();
+
+                // Si l'adresse existe et qu'elle n'est plus utilisée par d'autres patients, on peut la supprimer
+                if (adresse != null)
+                {
+                    bool isAdresseUsed = await _context.Patients.AnyAsync(p => p.AdresseId == adresse.Id);
+                    if (!isAdresseUsed)
+                    {
+                        _context.Adresses.Remove(adresse);
+                        await _context.SaveChangesAsync();
+                    }
+                }
             }
         }
+
     }
 }
