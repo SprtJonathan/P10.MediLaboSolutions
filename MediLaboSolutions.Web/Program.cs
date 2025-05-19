@@ -1,5 +1,7 @@
+using MediLaboSolutions.Common.Utils;
 using MediLaboSolutions.Web.Data;
 using MediLaboSolutions.Web.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,12 +22,24 @@ builder.Services.AddScoped<NoteService>();
 // Configurer HttpClient pour appeler l'API
 builder.Services.AddHttpClient<PatientService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5221/"); // Pointe vers le Gateway
+    client.BaseAddress = new Uri("https://localhost:7157/"); // Pointe vers le Gateway
 });
 builder.Services.AddHttpClient<NoteService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5221/"); // Pointe vers le Gateway
+    client.BaseAddress = new Uri("https://localhost:7157/"); // Pointe vers le Gateway
 });
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+});
+builder.Services.AddHttpContextAccessor();
+
+var cert = CertificateHelper.GetCertificateByThumbprint("61EAC67F1199C602BBD1B2734F2D260510650F1D");
+
+builder.Services.AddDataProtection()
+    .ProtectKeysWithCertificate(cert)
+    .SetApplicationName("MediLabo");
 
 var app = builder.Build();
 

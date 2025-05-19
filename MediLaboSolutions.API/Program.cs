@@ -1,5 +1,7 @@
 using MediLaboSolutions.API.Data;
 using MediLaboSolutions.API.Repositories;
+using MediLaboSolutions.Common.Utils;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,16 @@ if (string.IsNullOrEmpty(connectionString))
 builder.Services.AddDbContext<MediLaboSolutionsDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddAuthentication("Identity.Application")
+    .AddCookie("Identity.Application");
+builder.Services.AddAuthorization();
+
+var cert = CertificateHelper.GetCertificateByThumbprint("61EAC67F1199C602BBD1B2734F2D260510650F1D");
+
+builder.Services.AddDataProtection()
+    .ProtectKeysWithCertificate(cert)
+    .SetApplicationName("MediLabo");
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +52,7 @@ app.MapGet("/health", () => Results.Ok("Healthy"));
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

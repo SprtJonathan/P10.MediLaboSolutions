@@ -2,15 +2,18 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/patients/{everything}",
-      "DownstreamScheme": "http",
+      "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
           "Host": "localhost",
-          "Port": 5162
+          "Port": 7186
         }
       ],
       "UpstreamPathTemplate": "/api/patients/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "HttpHandlerOptions": {
+        "UseCookieContainer": true
+      }
     },
     {
       "DownstreamPathTemplate": "/api/notes/{everything}",
@@ -28,4 +31,5 @@
   "GlobalConfiguration": {
     "BaseUrl": "http://localhost:7157"
   }
+
 }

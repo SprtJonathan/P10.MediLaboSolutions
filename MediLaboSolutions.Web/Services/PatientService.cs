@@ -11,16 +11,28 @@ namespace MediLaboSolutions.Web.Services
     {
         private readonly HttpClient _httpClient;
         private readonly ILogger<PatientService> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PatientService(HttpClient httpClient, ILogger<PatientService> logger)
+        public PatientService(HttpClient httpClient, ILogger<PatientService> logger, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7157/");
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
+        }
+        private void CopyAuthCookieToRequest()
+        {
+            var accessToken = _httpContextAccessor.HttpContext?.Request.Cookies[".AspNetCore.Identity.Application"];
+            if (!string.IsNullOrEmpty(accessToken))
+            {
+                _httpClient.DefaultRequestHeaders.Remove("Cookie");
+                _httpClient.DefaultRequestHeaders.Add("Cookie", $".AspNetCore.Identity.Application={accessToken}");
+            }
         }
 
         public async Task<List<PatientDto>> GetAllPatientsAsync()
         {
+            CopyAuthCookieToRequest();
+
             try
             {
                 _logger.LogInformation("Récupération de la liste de tous les patients");
@@ -37,6 +49,8 @@ namespace MediLaboSolutions.Web.Services
 
         public async Task<PatientDto?> GetPatientByIdAsync(int id)
         {
+            CopyAuthCookieToRequest();
+
             try
             {
                 _logger.LogInformation($"Récupération du patient avec l'ID {id}");
@@ -53,6 +67,8 @@ namespace MediLaboSolutions.Web.Services
 
         public async Task AddPatientAsync(PatientDto patient)
         {
+            CopyAuthCookieToRequest();
+
             try
             {
                 _logger.LogInformation("Ajout d'un nouveau patient");
@@ -75,6 +91,8 @@ namespace MediLaboSolutions.Web.Services
 
         public async Task UpdatePatientAsync(int id, PatientDto patient)
         {
+            CopyAuthCookieToRequest();
+
             try
             {
                 _logger.LogInformation($"Mise à jour du patient avec l'ID {id}");
@@ -97,6 +115,8 @@ namespace MediLaboSolutions.Web.Services
 
         public async Task DeletePatientAsync(int id)
         {
+            CopyAuthCookieToRequest();
+
             try
             {
                 _logger.LogInformation($"Suppression du patient avec l'ID {id}");

@@ -1,10 +1,12 @@
 ﻿using MediLaboSolutions.API.Dto;
 using MediLaboSolutions.API.Models.Patient;
 using MediLaboSolutions.API.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediLaboSolutions.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class PatientsController : ControllerBase
