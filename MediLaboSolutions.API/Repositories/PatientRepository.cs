@@ -58,13 +58,6 @@ namespace MediLaboSolutions.API.Repositories
 
         public async Task UpdateAsync(PatientEF patient)
         {
-            var existingPatient = await _context.Patients
-                .AsNoTracking()
-                .Include(p => p.Adresse)
-                .FirstOrDefaultAsync(p => p.Id == patient.Id);
-
-            AdresseEF? oldAdresse = existingPatient?.Adresse;
-
             if (patient.Adresse != null)
             {
                 var existingAdresse = await _context.Adresses.FirstOrDefaultAsync(a =>
@@ -89,20 +82,6 @@ namespace MediLaboSolutions.API.Repositories
 
             _context.Patients.Update(patient);
             await _context.SaveChangesAsync();
-
-            if (oldAdresse != null)
-            {
-                bool stillUsed = await _context.Patients.AnyAsync(p => p.AdresseId == oldAdresse.Id);
-                if (!stillUsed)
-                {
-                    var adresseToDelete = await _context.Adresses.FindAsync(oldAdresse.Id);
-                    if (adresseToDelete != null)
-                    {
-                        _context.Adresses.Remove(adresseToDelete);
-                        await _context.SaveChangesAsync();
-                    }
-                }
-            }
         }
 
         public async Task DeleteAsync(int id)
@@ -110,21 +89,8 @@ namespace MediLaboSolutions.API.Repositories
             var patient = await _context.Patients.Include(p => p.Adresse).FirstOrDefaultAsync(p => p.Id == id);
             if (patient != null)
             {
-                var adresse = patient.Adresse;
-
                 _context.Patients.Remove(patient);
                 await _context.SaveChangesAsync();
-
-                // Si l'adresse existe et qu'elle n'est plus utilisée par d'autres patients, on peut la supprimer
-                if (adresse != null)
-                {
-                    bool isAdresseUsed = await _context.Patients.AnyAsync(p => p.AdresseId == adresse.Id);
-                    if (!isAdresseUsed)
-                    {
-                        _context.Adresses.Remove(adresse);
-                        await _context.SaveChangesAsync();
-                    }
-                }
             }
         }
 
