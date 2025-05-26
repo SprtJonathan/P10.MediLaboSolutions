@@ -12,12 +12,15 @@ namespace MediLaboSolutions.Web.Controllers
     {
         private readonly PatientService _patientService;
         private readonly NoteService _noteService;
+        private readonly AssessmentService _assessmentService;
+
         private readonly ILogger<PatientsController> _logger;
 
-        public PatientsController(PatientService patientService, NoteService noteService, ILogger<PatientsController> logger)
+        public PatientsController(PatientService patientService, NoteService noteService, AssessmentService assessmentService, ILogger<PatientsController> logger)
         {
             _patientService = patientService ?? throw new ArgumentNullException(nameof(patientService));
             _noteService = noteService;
+            _assessmentService = assessmentService;
             _logger = logger;
         }
 
@@ -49,10 +52,13 @@ namespace MediLaboSolutions.Web.Controllers
 
                 var notes = await _noteService.GetNotesByPatientIdAsync(id);
 
+                var riskLevel = await _assessmentService.GetRiskLevelAsync(id);
+
                 var viewModel = new PatientDetailsViewModel
                 {
                     Patient = patient,
                     Notes = notes,
+                    NiveauRisque = riskLevel,
                     NewNote = new NoteDto
                     {
                         PatientId = patient.Id ?? 0,

@@ -16,6 +16,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<NoteService>();
+builder.Services.AddScoped<AssessmentService>();
 
 // Configurer HttpClient pour appeler l'API
 builder.Services.AddHttpClient<PatientService>(client =>
