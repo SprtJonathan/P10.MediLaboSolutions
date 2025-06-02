@@ -11,7 +11,6 @@ namespace MediLaboSolutions.Web.Services
         public NoteService(HttpClient httpClient, ILogger<NoteService> logger)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7157/");
             _logger = logger;
         }
 

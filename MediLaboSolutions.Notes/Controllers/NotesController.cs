@@ -1,12 +1,14 @@
 using MediLaboSolutions.Notes.Dto;
 using MediLaboSolutions.Notes.Models.Note;
 using MediLaboSolutions.Notes.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MediLaboSolutions.Notes.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class NotesController : ControllerBase
 {
     private readonly INoteRepository _repository;

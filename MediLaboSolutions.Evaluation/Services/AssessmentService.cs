@@ -1,8 +1,11 @@
-﻿using System.Net.Http.Json;
-using System.Text;
+﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text.RegularExpressions;
+using System.Text;
+using FuzzySharp;
 using MediLaboSolutions.Common.Enumerables;
 using MediLaboSolutions.Evaluation.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace MediLaboSolutions.Evaluation.Services
@@ -10,26 +13,28 @@ namespace MediLaboSolutions.Evaluation.Services
     public class AssessmentService
     {
         private readonly IHttpClientFactory _clientFactory;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<AssessmentService> _logger;
 
-        private static readonly string[] _triggerStems = new[]
+        private static readonly Dictionary<string, string[]> _triggerGroups = new()
         {
-            "hémoglobine a1c",
-            "microalbumine",
-            "taille",
-            "poids",
-            "fum",         // pour fume, fumer, fumeur, fumeuse
-            "anormal",     // anormal, anormale
-            "cholestérol",
-            "vertig",      // vertige, vertiges
-            "rechute",
-            "réaction",
-            "anticorps"
+            ["hémoglobine"] = new[] { "hémoglobine a1c", "hba1c" },
+            ["microalbumine"] = new[] { "microalbumine" },
+            ["taille"] = new[] { "taille" },
+            ["poids"] = new[] { "poids" },
+            ["tabac"] = new[] { "fum", "fumer", "fume", "fumeur", "fumeuse", "tabac", "cigarette" },
+            ["anormal"] = new[] { "anormal", "anormale" },
+            ["cholestérol"] = new[] { "cholestérol", "cholesterol" },
+            ["vertige"] = new[] { "vertige", "vertiges" },
+            ["rechute"] = new[] { "rechute" },
+            ["réaction"] = new[] { "réaction", "réactions" },
+            ["anticorps"] = new[] { "anticorps" }
         };
 
-        public AssessmentService(IHttpClientFactory clientFactory, ILogger<AssessmentService> logger)
+        public AssessmentService(IHttpClientFactory clientFactory, IHttpContextAccessor httpContextAccessor, ILogger<AssessmentService> logger)
         {
             _clientFactory = clientFactory;
+            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
         }
 
@@ -37,43 +42,50 @@ namespace MediLaboSolutions.Evaluation.Services
         {
             var client = _clientFactory.CreateClient();
 
+            // Récupérer le token JWT de la requête entrante
+            var token = _httpContextAccessor.HttpContext?.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                // Ajouter le token aux requêtes sortantes
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            }
+            else
+            {
+                _logger.LogWarning("Aucun token JWT trouvé dans la requête entrante pour patientId={patientId}", patientId);
+                return ENiveauRisque.None; // Ou gérer autrement selon les besoins
+            }
+
             var patient = await client.GetFromJsonAsync<PatientDto>($"https://localhost:7157/api/patients/{patientId}");
             var notes = await client.GetFromJsonAsync<List<NoteDto>>($"https://localhost:7157/api/notes");
 
-            if (patient == null || notes == null)
+            if (patient is null || notes is null)
             {
                 _logger.LogWarning("Patient {patientId} ou notes introuvables, retourne NONE", patientId);
                 return ENiveauRisque.None;
             }
 
-            // Récupération du texte de toutes les notes du patient
-            var allText = notes
+            var fullNoteText = string.Join(" ", notes
                 .Where(n => n.PatientId == patientId)
-                .Select(n => n.Texte)
-                .Aggregate(new StringBuilder(), (sb, t) => sb.Append(' ').Append(t))
-                .ToString()
+                .Select(n => n.Texte))
                 .ToLowerInvariant();
 
-            // On matche chaque stem + tout suffixe (\w*)
-            var matched = _triggerStems
-                .Where(stem => Regex.IsMatch(allText,
-                    $@"\b{Regex.Escape(stem)}\w*\b",
-                    RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
-                .Distinct()
-                .ToList();
+            var distinctWords = Regex.Matches(fullNoteText, @"\b\w+\b")
+                                     .Select(m => m.Value)
+                                     .Distinct()
+                                     .ToList();
 
-            var count = matched.Count;
-            _logger.LogInformation("Patient {patientId} : triggers détectés = [{triggers}], total={count}",
+            var matchedGroups = DetectTriggerGroups(fullNoteText, distinctWords);
+
+            _logger.LogInformation("Patient {patientId} : groupes détectés = [{triggers}], total={count}",
                 patientId,
-                string.Join(", ", matched),
-                count);
+                string.Join(", ", matchedGroups),
+                matchedGroups.Count);
 
-            // Calcul de l'âge exact
-            var age = DateTime.UtcNow.Year - patient.DateNaissance.Year;
-            if (patient.DateNaissance > DateTime.UtcNow.AddYears(-age)) age--;
+            var age = CalculateAge(patient.DateNaissance);
 
-            // Délégation à la méthode de décision
-            var risk = DetermineRiskLevel(count, age, patient.Genre);
+            var risk = DetermineRiskLevel(matchedGroups.Count, age, patient.Genre);
+
             _logger.LogInformation("Patient {patientId} : age={age}, genre={genre} => risque {risk}",
                 patientId, age, patient.Genre, risk);
 
@@ -81,40 +93,81 @@ namespace MediLaboSolutions.Evaluation.Services
         }
 
         /// <summary>
-        /// Détermine le niveau de risque du patient selon les facteurs trouvés
+        /// Détecte les groupes déclencheurs présents dans le texte, avec tolérance aux fautes.
         /// </summary>
-        /// <param name="count"></param>
-        /// <param name="age"></param>
-        /// <param name="genre"></param>
-        /// <returns></returns>
+        private List<string> DetectTriggerGroups(string text, List<string> distinctWords)
+        {
+            var matchedGroups = new List<string>();
+
+            foreach (var (groupKey, variants) in _triggerGroups)
+            {
+                // 1. Regex stricte
+                if (variants.Any(variant =>
+                        Regex.IsMatch(text, $@"\b{Regex.Escape(variant)}\w*\b", RegexOptions.IgnoreCase)))
+                {
+                    matchedGroups.Add(groupKey);
+                    continue;
+                }
+
+                // 2. Fallback fuzzy, mais filtré
+                foreach (var variant in variants)
+                {
+                    var best = Process.ExtractOne(variant, distinctWords
+                        .Where(w => w.Length >= 4) // ignore les mots trop courts
+                        .ToList());
+
+                    if (best != null && best.Score >= 92)
+                    {
+                        _logger.LogDebug("Fuzzy match pour groupe '{group}' via '{variant}' avec le mot '{word}' (score {score})",
+                            groupKey, variant, best.Value, best.Score);
+                        matchedGroups.Add(groupKey);
+                        break;
+                    }
+                }
+            }
+
+            return matchedGroups;
+        }
+
+        /// <summary>
+        /// Calcule l'âge du patient à partir de sa date de naissance.
+        /// </summary>
+        private static int CalculateAge(DateTime birthDate)
+        {
+            var today = DateTime.UtcNow;
+            var age = today.Year - birthDate.Year;
+            if (birthDate > today.AddYears(-age)) age--;
+            return age;
+        }
+
+        /// <summary>
+        /// Détermine le niveau de risque du patient selon les facteurs trouvés.
+        /// </summary>
         private static ENiveauRisque DetermineRiskLevel(int count, int age, EPatientGender genre)
         {
             if (count == 0)
                 return ENiveauRisque.None;
 
-            // Plus de 30 ans
             if (age > 30)
             {
                 if (count >= 8) return ENiveauRisque.EarlyOnset;
                 if (count >= 6) return ENiveauRisque.InDanger;
-                if (count >= 2) return ENiveauRisque.Borderline;
+                if (count >= 2 && count <= 5) return ENiveauRisque.Borderline;
             }
-            // Moins ou égal à 30 ans
-            else
+            else // âge ≤ 30
             {
                 if (genre == EPatientGender.Homme)
                 {
                     if (count >= 5) return ENiveauRisque.EarlyOnset;
-                    if (count >= 3) return ENiveauRisque.InDanger;
+                    if (count >= 3 && count <= 4) return ENiveauRisque.InDanger;
                 }
                 else // Femme ou autre
                 {
                     if (count >= 7) return ENiveauRisque.EarlyOnset;
-                    if (count >= 4) return ENiveauRisque.InDanger;
+                    if (count >= 4 && count <= 6) return ENiveauRisque.InDanger;
                 }
             }
 
-            // Par défaut, aucun risque
             return ENiveauRisque.None;
         }
     }

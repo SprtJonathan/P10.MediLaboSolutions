@@ -11,7 +11,6 @@ public class AssessmentService
     public AssessmentService(HttpClient httpClient, ILogger<AssessmentService> logger)
     {
         _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri("https://localhost:7157/"); // ou Gateway si déjà en place
         _logger = logger;
     }
 

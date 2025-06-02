@@ -10,4 +10,5 @@ public class PatientDetailsViewModel
     public List<NoteDto> Notes { get; set; }
     public NoteDto? NewNote { get; set; }
     public ENiveauRisque NiveauRisque { get; set; }
+    public string NiveauRisqueUIClass { get; set; }
 }

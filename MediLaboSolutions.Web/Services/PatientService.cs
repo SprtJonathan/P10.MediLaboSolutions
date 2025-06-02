@@ -15,12 +15,11 @@ namespace MediLaboSolutions.Web.Services
         public PatientService(HttpClient httpClient, ILogger<PatientService> logger)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("https://localhost:7157/");
             _logger = logger;
         }
 
         public async Task<List<PatientDto>> GetAllPatientsAsync()
-        {
+       {
             try
             {
                 _logger.LogInformation("Récupération de la liste de tous les patients");

@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediLaboSolutions.Common", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediLaboSolutions.Notes", "MediLaboSolutions.Notes\MediLaboSolutions.Notes.csproj", "{DB9E5E68-EBBE-46AA-BCD8-42D90876FAA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MediLaboSolutions.Evaluation", "MediLaboSolutions.Evaluation\MediLaboSolutions.Evaluation.csproj", "{89139948-272C-4B36-8D12-A519374A3387}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MediLaboSolutions.Evaluation", "MediLaboSolutions.Evaluation\MediLaboSolutions.Evaluation.csproj", "{89139948-272C-4B36-8D12-A519374A3387}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

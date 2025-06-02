@@ -6,6 +6,7 @@ namespace MediLaboSolutions.Evaluation.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class AssessmentController : ControllerBase
 {
     private readonly AssessmentService _assessmentService;
