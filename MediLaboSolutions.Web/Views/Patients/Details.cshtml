@@ -1,10 +1,15 @@
-﻿@model MediLaboSolutions.Web.ViewModels.PatientDetailsViewModel
+﻿@using MediLaboSolutions.Common.Extensions
+@using MediLaboSolutions.Common.Enumerables
+@model MediLaboSolutions.Web.ViewModels.PatientDetailsViewModel
 
 @{
     ViewData["Title"] = "Détails du patient";
 }
 
-<h2 class="mb-4">Détails du patient</h2>
+<h2 class="mb-4">Détails du patient @Model.Patient.Prenom @Model.Patient.Nom</h2>
+<div class="alert @Model.NiveauRisqueUIClass mt-3">
+    <strong>Évaluation du risque de diabète :</strong> @Model.NiveauRisque.GetDisplayName()
+</div>
 
 <ul class="nav nav-tabs mb-3" id="patientTabs" role="tablist">
     <li class="nav-item" role="presentation">

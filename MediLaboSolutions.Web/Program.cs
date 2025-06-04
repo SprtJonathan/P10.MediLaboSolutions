@@ -14,18 +14,30 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+// Ajout des services personnalis�s
 builder.Services.AddScoped<PatientService>();
 builder.Services.AddScoped<NoteService>();
+builder.Services.AddScoped<AssessmentService>();
+builder.Services.AddScoped<JwtTokenService>();
+builder.Services.AddTransient<JwtTokenHandler>();
+builder.Services.AddHttpContextAccessor();
 
-// Configurer HttpClient pour appeler l'API
+// Configurer HttpClient avec le JwtTokenHandler pour les appels aux microservices
 builder.Services.AddHttpClient<PatientService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5221/"); // Pointe vers le Gateway
-});
+    client.BaseAddress = new Uri("https://localhost:7157/"); // Pointe vers le Gateway Ocelot
+}).AddHttpMessageHandler<JwtTokenHandler>();
+
 builder.Services.AddHttpClient<NoteService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:5221/"); // Pointe vers le Gateway
-});
+    client.BaseAddress = new Uri("https://localhost:7157/"); // Pointe vers le Gateway Ocelot
+}).AddHttpMessageHandler<JwtTokenHandler>();
+
+builder.Services.AddHttpClient<AssessmentService>(client =>
+{
+    client.BaseAddress = new Uri("https://localhost:7157/"); // Pointe vers le Gateway Ocelot
+}).AddHttpMessageHandler<JwtTokenHandler>();
 
 var app = builder.Build();
 
@@ -37,7 +49,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -46,6 +57,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

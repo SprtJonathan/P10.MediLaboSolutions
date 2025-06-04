@@ -1,7 +1,5 @@
-using MediLaboSolutions.Notes.Data;
-using MediLaboSolutions.Notes.Repositories;
+using MediLaboSolutions.Evaluation.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -40,12 +38,13 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-builder.Services.AddScoped<INoteRepository, NoteRepository>();
+builder.Services.AddScoped<AssessmentService>();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -58,11 +57,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddDbContext<MediLaboMongoDbContext>(options =>
-    options.UseMongoDB(
-        builder.Configuration["MongoSettings:ConnectionString"],
-        builder.Configuration["MongoSettings:DatabaseName"]
-    ));
+builder.Services.AddAuthorization();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
