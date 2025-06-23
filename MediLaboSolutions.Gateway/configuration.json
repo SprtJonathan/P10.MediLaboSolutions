@@ -2,11 +2,11 @@
   "Routes": [
     {
       "DownstreamPathTemplate": "/api/patients/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7186
+          "Host": "medilabosolutions.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/patients/{everything}",
@@ -18,11 +18,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/notes/{everything}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7104
+          "Host": "medilabosolutions.notes",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/notes/{everything}",
@@ -34,11 +34,11 @@
     },
     {
       "DownstreamPathTemplate": "/api/assessment/{patientId}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7220
+          "Host": "medilabosolutions.evaluation",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/assessment/{patientId}",
@@ -47,9 +47,21 @@
         "AuthenticationProviderKey": "GatewayAuthenticationScheme",
         "AllowedScopes": []
       }
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "medilabosolutions.web",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/web/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "https://localhost:7157"
+    "BaseUrl": "http://medilabosolutionsgateway:80"
   }
 }
