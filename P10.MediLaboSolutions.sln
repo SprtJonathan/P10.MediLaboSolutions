@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "�
 		db-init\MediLaboSolutions.Notes.json = db-init\MediLaboSolutions.Notes.json
 		db-init\MigrationAdresses.sql = db-init\MigrationAdresses.sql
 		db-init\MigrationPatients.sql = db-init\MigrationPatients.sql
-		db-init\mongo-seed.sh = db-init\mongo-seed.sh
+		db-init\mongo-init.js = db-init\mongo-init.js
 		db-init\wait-and-run.sh = db-init\wait-and-run.sh
 	EndProjectSection
 EndProject
