@@ -24,7 +24,7 @@ services:
     environment:
       - ASPNETCORE_URLS=http://*:80
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=MediLaboSolutions;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;Encrypt=False
+      - ConnectionStrings__DefaultConnection=${SQL_CONNEXION_STRING}
     depends_on:
       - sqlserver
     command: ["sh", "-c", "until nc -z sqlserver 1433; do sleep 1; done; dotnet MediLaboSolutions.API.dll"]
@@ -85,7 +85,7 @@ services:
     environment:
       - ASPNETCORE_URLS=http://*:80
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=MediLaboSolutions;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;Encrypt=False
+      - ConnectionStrings__DefaultConnection=${SQL_CONNEXION_STRING}
     depends_on:
       - sqlserver
     networks:
@@ -96,7 +96,7 @@ services:
     container_name: sqlserver
     environment:
       - ACCEPT_EULA=true
-      - SA_PASSWORD=YourStrong@Passw0rd
+      - SA_PASSWORD=${SA_PASSWORD}
       - MSSQL_PID=Express
     ports:
       - 1433:1433

@@ -364,3 +364,5 @@ FodyWeavers.xsd
 /MediLaboSolutions.API/appsettings.Development.json
 /MediLaboSolutions.API/appsettings.json
 /MediLaboSolutions.Web/appsettings.json
+
+.env

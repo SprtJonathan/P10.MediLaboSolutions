@@ -16,12 +16,12 @@ COPY ["MediLaboSolutions.Common/MediLaboSolutions.Common.csproj", "MediLaboSolut
 RUN dotnet restore "./MediLaboSolutions.API/MediLaboSolutions.API.csproj"
 COPY . .
 WORKDIR "/src/MediLaboSolutions.API"
-RUN dotnet build "./MediLaboSolutions.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./MediLaboSolutions.API.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 # Cette étape permet de publier le projet de service à copier dans la phase finale
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./MediLaboSolutions.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./MediLaboSolutions.API.csproj" -c "$BUILD_CONFIGURATION" -o /app/publish /p:UseAppHost=false
 
 # Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
 FROM base AS final

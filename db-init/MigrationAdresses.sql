@@ -5,7 +5,7 @@ END
 
 USE [MediLaboSolutions]
 GO
-/****** Object:  Table [dbo].[Adresses]    Script Date: 16/06/2025 13:55:52 ******/
+-- Object:  Table [dbo].[Adresses]    Script Date: 16/06/2025 13:55:52
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -28,8 +28,10 @@ END
 GO
 SET IDENTITY_INSERT [dbo].[Adresses] ON
 
-IF NOT EXISTS (SELECT 1 FROM [dbo].[Adresses] WHERE [Numero] = 1 AND [Voie] = N'Brookside St')
-INSERT [dbo].[Adresses] ([Id], [Numero], [Voie], [Ville], [CodePostal], [Pays]) VALUES (2, 1, N'Brookside St', NULL, NULL, NULL)
+DECLARE @BrooksideVoie NVARCHAR(200) = N'Brookside St';
+
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Adresses] WHERE [Numero] = 1 AND [Voie] = @BrooksideVoie)
+INSERT [dbo].[Adresses] ([Id], [Numero], [Voie], [Ville], [CodePostal], [Pays]) VALUES (2, 1, @BrooksideVoie, NULL, NULL, NULL)
 
 IF NOT EXISTS (SELECT 1 FROM [dbo].[Adresses] WHERE [Numero] = 2 AND [Voie] = N'High St')
 INSERT [dbo].[Adresses] ([Id], [Numero], [Voie], [Ville], [CodePostal], [Pays]) VALUES (3, 2, N'High St', NULL, NULL, NULL)
@@ -40,8 +42,8 @@ INSERT [dbo].[Adresses] ([Id], [Numero], [Voie], [Ville], [CodePostal], [Pays]) 
 IF NOT EXISTS (SELECT 1 FROM [dbo].[Adresses] WHERE [Numero] = 4 AND [Voie] = N'Valley Dr')
 INSERT [dbo].[Adresses] ([Id], [Numero], [Voie], [Ville], [CodePostal], [Pays]) VALUES (5, 4, N'Valley Dr', NULL, NULL, NULL)
 
-IF NOT EXISTS (SELECT 1 FROM [dbo].[Adresses] WHERE [Numero] = 2 AND [Voie] = N'Brookside St')
-INSERT [dbo].[Adresses] ([Id], [Numero], [Voie], [Ville], [CodePostal], [Pays]) VALUES (22, 2, N'Brookside St', NULL, NULL, NULL)
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Adresses] WHERE [Numero] = 2 AND [Voie] = @BrooksideVoie)
+INSERT [dbo].[Adresses] ([Id], [Numero], [Voie], [Ville], [CodePostal], [Pays]) VALUES (22, 2, @BrooksideVoie, NULL, NULL, NULL)
 
 IF NOT EXISTS (SELECT 1 FROM [dbo].[Adresses] WHERE [Numero] IS NULL AND [Voie] IS NULL AND [Ville] IS NULL AND [CodePostal] IS NULL AND [Pays] IS NULL)
 INSERT [dbo].[Adresses] ([Id], [Numero], [Voie], [Ville], [CodePostal], [Pays]) VALUES (23, NULL, NULL, NULL, NULL, NULL)
@@ -51,7 +53,7 @@ SET IDENTITY_INSERT [dbo].[Adresses] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Adresses_Numero_Voie_Ville_CodePostal_Pays]    Script Date: 16/06/2025 13:55:52 ******/
+-- Object:  Index [IX_Adresses_Numero_Voie_Ville_CodePostal_Pays]    Script Date: 16/06/2025 13:55:52
 CREATE UNIQUE NONCLUSTERED INDEX [IX_Adresses_Numero_Voie_Ville_CodePostal_Pays] ON [dbo].[Adresses]
 (
 	[Numero] ASC,
