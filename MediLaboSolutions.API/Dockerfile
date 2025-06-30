@@ -2,7 +2,6 @@
 
 # Cet index est utilisé lors de l’exécution à partir de VS en mode rapide (par défaut pour la configuration de débogage)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER app
 WORKDIR /app
 EXPOSE 80
 
@@ -14,7 +13,8 @@ WORKDIR /src
 COPY ["MediLaboSolutions.API/MediLaboSolutions.API.csproj", "MediLaboSolutions.API/"]
 COPY ["MediLaboSolutions.Common/MediLaboSolutions.Common.csproj", "MediLaboSolutions.Common/"]
 RUN dotnet restore "./MediLaboSolutions.API/MediLaboSolutions.API.csproj"
-COPY . .
+COPY MediLaboSolutions.API/ MediLaboSolutions.API/
+COPY MediLaboSolutions.Common/ MediLaboSolutions.Common/
 WORKDIR "/src/MediLaboSolutions.API"
 RUN dotnet build "./MediLaboSolutions.API.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
@@ -26,5 +26,10 @@ RUN dotnet publish "./MediLaboSolutions.API.csproj" -c "$BUILD_CONFIGURATION" -o
 # Cette phase est utilisée en production ou lors de l’exécution à partir de VS en mode normal (par défaut quand la configuration de débogage n’est pas utilisée)
 FROM base AS final
 WORKDIR /app
+
+# Cette ligne est désormais root
+RUN adduser --disabled-password --gecos "" appuser
+USER appuser
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "MediLaboSolutions.API.dll"]
