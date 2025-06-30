@@ -1,3 +1,4 @@
+# NOSONAR: Image SQL Server nécessite root
 FROM mcr.microsoft.com/mssql/server:2022-latest
 
 WORKDIR /tmp/db-seed
