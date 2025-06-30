@@ -56,8 +56,8 @@ namespace MediLaboSolutions.Evaluation.Services
                 return ENiveauRisque.None; // Ou gérer autrement selon les besoins
             }
 
-            var patient = await client.GetFromJsonAsync<PatientDto>($"https://localhost:7157/api/patients/{patientId}");
-            var notes = await client.GetFromJsonAsync<List<NoteDto>>($"https://localhost:7157/api/notes");
+            var patient = await client.GetFromJsonAsync<PatientDto>($"http://medilabosolutions.gateway/api/patients/{patientId}");
+            var notes = await client.GetFromJsonAsync<List<NoteDto>>($"http://medilabosolutions.gateway/api/notes");
 
             if (patient is null || notes is null)
             {

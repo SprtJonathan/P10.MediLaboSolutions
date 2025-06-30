@@ -1,6 +1,7 @@
 using MediLaboSolutions.Web.Data;
 using MediLaboSolutions.Web.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,17 +27,17 @@ builder.Services.AddHttpContextAccessor();
 // Configurer HttpClient avec le JwtTokenHandler pour les appels aux microservices
 builder.Services.AddHttpClient<PatientService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7157/"); // Pointe vers le Gateway Ocelot
+    client.BaseAddress = new Uri("http://medilabosolutions.gateway/"); // Pointe vers le Gateway Ocelot
 }).AddHttpMessageHandler<JwtTokenHandler>();
 
 builder.Services.AddHttpClient<NoteService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7157/"); // Pointe vers le Gateway Ocelot
+    client.BaseAddress = new Uri("http://medilabosolutions.gateway/"); // Pointe vers le Gateway Ocelot
 }).AddHttpMessageHandler<JwtTokenHandler>();
 
 builder.Services.AddHttpClient<AssessmentService>(client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7157/"); // Pointe vers le Gateway Ocelot
+    client.BaseAddress = new Uri("http://medilabosolutions.gateway/"); // Pointe vers le Gateway Ocelot
 }).AddHttpMessageHandler<JwtTokenHandler>();
 
 var app = builder.Build();

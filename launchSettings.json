@@ -1,0 +1,15 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "medilabosolutions.api": "StartDebugging",
+        "medilabosolutions.evaluation": "StartDebugging",
+        "medilabosolutions.gateway": "StartDebugging",
+        "medilabosolutions.notes": "StartDebugging",
+        "medilabosolutions.web": "StartDebugging"
+      }
+    }
+  }
+}

@@ -10,9 +10,9 @@ public class StatusController : ControllerBase
 
     private readonly Dictionary<string, string> _routeHealthChecks = new()
     {
-        { "Patients API", "http://localhost:5162/health" },
-        { "Notes API", "http://localhost:5080/health" },
-        { "Evaluation API", "http://localhost:5122/health" }
+        { "Patients API", "http://medilabosolutions.api/health" },
+        { "Notes API", "http://medilabosolutions.notes/health" },
+        { "Evaluation API", "http://medilabosolutions.evaluation/health" }
     };
 
     [HttpGet]
