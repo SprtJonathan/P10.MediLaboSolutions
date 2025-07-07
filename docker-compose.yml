@@ -112,6 +112,8 @@ services:
     container_name: database-seed
     depends_on:
       - sqlserver
+    environment:
+      SA_PASSWORD: ${SA_PASSWORD}
     networks:
       - medilabo-network
 
