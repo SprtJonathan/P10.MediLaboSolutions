@@ -45,7 +45,7 @@ docker-compose up -d
 
 1. Lancez l'application web via l'URL http://localhost:5000.
 2. Inscrivez-vous à l'aide du formulaire d'inscription.
-3. Appliquez les migrations de base de données si nécessaire en cliquant sur le bouton **apply db migration**.
+3. Appliquez les migrations de base de données si nécessaire en cliquant sur le bouton **Apply Migration**.
 4. Actualisez la page puis confirmez votre compte.
 5. Connectez-vous pour accéder au site.
 
