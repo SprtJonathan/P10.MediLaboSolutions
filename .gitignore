@@ -361,8 +361,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/MediLaboSolutions.API/appsettings.Development.json
 /MediLaboSolutions.API/appsettings.json
 /MediLaboSolutions.Web/appsettings.json
+/MediLaboSolutions.Notes/appsettings.json
+/MediLaboSolutions.Evaluation/appsettings.json
+/MediLaboSolutions.Gateway/appsettings.json
 
 .env

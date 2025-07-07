@@ -1,8 +1,3 @@
-IF DB_ID('MediLaboSolutions') IS NULL
-BEGIN
-  CREATE DATABASE [MediLaboSolutions];
-END
-
 USE [MediLaboSolutions]
 GO
 -- Object:  Table [dbo].[Patients]    Script Date: 16/06/2025 13:55:52

@@ -19,6 +19,7 @@ Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Éléments de solution", "Éléments de solution", "{843329B2-F855-42EB-8EF0-5A4543DAB31A}"
 	ProjectSection(SolutionItems) = preProject
+		db-init\CreateDatabase.sql = db-init\CreateDatabase.sql
 		db-init\Dockerfile = db-init\Dockerfile
 		db-init\MediLaboSolutions.Notes.json = db-init\MediLaboSolutions.Notes.json
 		db-init\MigrationAdresses.sql = db-init\MigrationAdresses.sql
