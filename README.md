@@ -23,6 +23,7 @@ cp MediLaboSolutions.Web/appsettings_example.json MediLaboSolutions.Web/appsetti
 ## Construction et lancement
 
 Construisez les images puis démarrez les services :
+
 **REMARQUE :** Assuez-vous que le script wait-and-run.sh soit encodé en LF et non CRLF. Le script ne fonctionnera pas avec l'encodage CRLF.
 
 ```bash
