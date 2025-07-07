@@ -5,27 +5,63 @@
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5162
+          "Host": "medilabosolutions.api",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/patients/{everything}",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationScheme",
+        "AllowedScopes": []
+      }
     },
     {
       "DownstreamPathTemplate": "/api/notes/{everything}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 5080
+          "Host": "medilabosolutions.notes",
+          "Port": 80
         }
       ],
       "UpstreamPathTemplate": "/api/notes/{everything}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationScheme",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/api/assessment/{patientId}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "medilabosolutions.evaluation",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/api/assessment/{patientId}",
+      "UpstreamHttpMethod": [ "GET" ],
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "GatewayAuthenticationScheme",
+        "AllowedScopes": []
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "medilabosolutions.web",
+          "Port": 80
+        }
+      ],
+      "UpstreamPathTemplate": "/web/{everything}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ]
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:7157"
+    "BaseUrl": "http://medilabosolutionsgateway:80"
   }
 }

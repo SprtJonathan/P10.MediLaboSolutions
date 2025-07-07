@@ -29,9 +29,27 @@ namespace MediLaboSolutions.API.Repositories
         {
             if (patient.Adresse != null)
             {
-                _context.Adresses.Add(patient.Adresse);
-                await _context.SaveChangesAsync();
-                patient.AdresseId = patient.Adresse.Id;
+                // Vérification de la présence d'une adresse identique
+                var existingAdresse = await _context.Adresses.FirstOrDefaultAsync(a =>
+                    a.Numero == patient.Adresse.Numero &&
+                    a.Voie == patient.Adresse.Voie &&
+                    a.Ville == patient.Adresse.Ville &&
+                    a.CodePostal == patient.Adresse.CodePostal &&
+                    a.Pays == patient.Adresse.Pays);
+
+                if (existingAdresse != null)
+                {
+                    // Si une adresse identique est trouvée, alors on l'associe au patient
+                    patient.Adresse = null;
+                    patient.AdresseId = existingAdresse.Id;
+                }
+                else
+                {
+                    // Sinon on ajoute la nouvelle adresse
+                    _context.Adresses.Add(patient.Adresse);
+                    await _context.SaveChangesAsync();
+                    patient.AdresseId = patient.Adresse.Id;
+                }
             }
 
             _context.Patients.Add(patient);
@@ -42,15 +60,23 @@ namespace MediLaboSolutions.API.Repositories
         {
             if (patient.Adresse != null)
             {
-                if (patient.Adresse.Id == 0)
+                var existingAdresse = await _context.Adresses.FirstOrDefaultAsync(a =>
+                a.Numero == patient.Adresse.Numero &&
+                a.Voie == patient.Adresse.Voie &&
+                a.Ville == patient.Adresse.Ville &&
+                a.CodePostal == patient.Adresse.CodePostal &&
+                a.Pays == patient.Adresse.Pays);
+
+                if (existingAdresse != null)
+                {
+                    patient.Adresse = null;
+                    patient.AdresseId = existingAdresse.Id;
+                }
+                else
                 {
                     _context.Adresses.Add(patient.Adresse);
                     await _context.SaveChangesAsync();
                     patient.AdresseId = patient.Adresse.Id;
-                }
-                else
-                {
-                    _context.Adresses.Update(patient.Adresse);
                 }
             }
 
@@ -63,14 +89,10 @@ namespace MediLaboSolutions.API.Repositories
             var patient = await _context.Patients.Include(p => p.Adresse).FirstOrDefaultAsync(p => p.Id == id);
             if (patient != null)
             {
-                if (patient.Adresse != null)
-                {
-                    _context.Adresses.Remove(patient.Adresse);
-                }
-
                 _context.Patients.Remove(patient);
                 await _context.SaveChangesAsync();
             }
         }
+
     }
 }

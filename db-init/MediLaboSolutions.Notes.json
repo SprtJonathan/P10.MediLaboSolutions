@@ -1,0 +1,119 @@
+[
+  {
+    "_id": {
+      "$oid": "681a060bf963a1cc416684bc"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestNone",
+    "PatientId": 2,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Le patient déclare qu'il 'se sent très bien' Poids égal ou inférieur au poids recommandé"
+  },
+  {
+    "_id": {
+      "$oid": "681a0622f963a1cc416684bd"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestBorderline",
+    "PatientId": 3,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Le patient déclare qu'il ressent beaucoup de stress au travail Il se plaint également que son audition est anormale dernièrement"
+  },
+  {
+    "_id": {
+      "$oid": "681a062bf963a1cc416684be"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestBorderline",
+    "PatientId": 3,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Le patient déclare avoir fait une réaction aux médicaments au cours des 3 derniers mois Il remarque également que son audition continue d'être anormale"
+  },
+  {
+    "_id": {
+      "$oid": "681a063ef963a1cc416684bf"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestInDanger",
+    "PatientId": 4,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Le patient déclare qu'il fume depuis peu"
+  },
+  {
+    "_id": {
+      "$oid": "681a064af963a1cc416684c0"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestInDanger",
+    "PatientId": 4,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Le patient déclare qu'il est fumeur et qu'il a cessé de fumer l'année dernière Il se plaint également de crises d’apnée respiratoire anormales Tests de laboratoire indiquant un taux de cholestérol LDL élevé"
+  },
+  {
+    "_id": {
+      "$oid": "681a0676f963a1cc416684c1"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestEarlyOnset",
+    "PatientId": 5,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Le patient déclare qu'il lui est devenu difficile de monter les escaliers Il se plaint également d’être essoufflé Tests de laboratoire indiquant que les anticorps sont élevés Réaction aux médicaments"
+  },
+  {
+    "_id": {
+      "$oid": "681a067bf963a1cc416684c2"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestEarlyOnset",
+    "PatientId": 5,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Le patient déclare qu'il a mal au dos lorsqu'il reste assis pendant longtemps"
+  },
+  {
+    "_id": {
+      "$oid": "681a0682f963a1cc416684c3"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestEarlyOnset",
+    "PatientId": 5,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Le patient déclare avoir commencé à fumer depuis peu Hémoglobine A1C supérieure au niveau recommandé"
+  },
+  {
+    "_id": {
+      "$oid": "681a0689f963a1cc416684c4"
+    },
+    "DateCreation": {
+      "$date": "2025-05-06T12:52:02.633Z"
+    },
+    "Nom": "TestEarlyOnset",
+    "PatientId": 5,
+    "PraticienUsername": "jonathan.binot@gmail.com",
+    "Prenom": "Test",
+    "Texte": "Taille, Poids, Cholestérol, Vertige et Réaction"
+  }
+]

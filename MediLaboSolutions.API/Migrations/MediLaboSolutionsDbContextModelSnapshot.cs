@@ -51,6 +51,10 @@ namespace MediLaboSolutions.API.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Numero", "Voie", "Ville", "CodePostal", "Pays")
+                        .IsUnique()
+                        .HasFilter("[Numero] IS NOT NULL AND [Voie] IS NOT NULL AND [Ville] IS NOT NULL AND [CodePostal] IS NOT NULL AND [Pays] IS NOT NULL");
+
                     b.ToTable("Adresses");
                 });
 
@@ -87,9 +91,7 @@ namespace MediLaboSolutions.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdresseId")
-                        .IsUnique()
-                        .HasFilter("[AdresseId] IS NOT NULL");
+                    b.HasIndex("AdresseId");
 
                     b.ToTable("Patients");
                 });
@@ -97,8 +99,8 @@ namespace MediLaboSolutions.API.Migrations
             modelBuilder.Entity("MediLaboSolutions.API.Models.Patient.PatientEF", b =>
                 {
                     b.HasOne("MediLaboSolutions.API.Models.Patient.AdresseEF", "Adresse")
-                        .WithOne()
-                        .HasForeignKey("MediLaboSolutions.API.Models.Patient.PatientEF", "AdresseId");
+                        .WithMany()
+                        .HasForeignKey("AdresseId");
 
                     b.Navigation("Adresse");
                 });

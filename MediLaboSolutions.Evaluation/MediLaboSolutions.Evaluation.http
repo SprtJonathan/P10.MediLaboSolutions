@@ -1,0 +1,6 @@
+@MediLaboSolutions.Evaluation_HostAddress = http://localhost:5122
+
+GET {{MediLaboSolutions.Evaluation_HostAddress}}/assessments/
+Accept: application/json
+
+###
